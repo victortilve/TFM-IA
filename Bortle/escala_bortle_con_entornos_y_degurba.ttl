@@ -1,0 +1,139 @@
+@prefix ex: <http://example.org#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sdmx-attribute: <http://purl.org/linked-data/sdmx/2009/attribute#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <http://schema.org/> .
+
+ex:EntornoMuyOscuro a skos:Concept ;
+    skos:prefLabel "Entorno oscuro"@es ;
+    skos:relatedMatch ex:ZonaRural .
+
+ex:EntornoOscuro a skos:Concept ;
+    skos:prefLabel "Entorno oscuro"@es ;
+    skos:relatedMatch ex:ZonaRural .
+
+ex:EntornoRural a skos:Concept ;
+    skos:prefLabel "Entorno Rural"@es ;
+    skos:relatedMatch ex:ZonaRural .
+
+ex:EntornoSubrural a skos:Concept ;
+    skos:prefLabel "Entorno Subrural"@es ;
+    skos:relatedMatch ex:ZonaRural .
+
+ex:EntornoSuburbano a skos:Concept ;
+    skos:prefLabel "Entorno Suburbano"@es ;
+    skos:relatedMatch ex:ZonaIntermedia .
+
+ex:EntornoUrbano a skos:Concept ;
+    skos:prefLabel "Entorno Urbano"@es ;
+    skos:relatedMatch ex:ZonaUrbana .
+
+ex:EntornoCiudad a skos:Concept ;
+    skos:prefLabel "Entorno CentroCiudad"@es ;
+    skos:relatedMatch ex:ZonaUrbana .
+
+ex:EntornoCentroCiudad a skos:Concept ;
+    skos:prefLabel "Entorno CentroCiudad"@es ;
+    skos:relatedMatch ex:ZonaUrbana .
+
+ex:Bortle1 a skos:Concept ;
+    skos:prefLabel "Bortle 1"@es ;
+    ex:tipoEntorno ex:EntornoMuyOscuro ;
+    qb:measureType [
+        a qb:MeasureProperty ;
+        rdfs:label "Brillo del cielo nocturno"@es ;
+        sdmx-attribute:unitMeasure <http://qudt.org/vocab/unit/MagPerArcsecSquared> ;
+        schema:minValue "21.90"^^xsd:decimal ;
+        schema:maxValue "22.00"^^xsd:decimal
+    ] .
+
+ex:Bortle2 a skos:Concept ;
+    skos:prefLabel "Bortle 2"@es ;
+    ex:tipoEntorno ex:EntornoOscuro ;
+    qb:measureType [
+        a qb:MeasureProperty ;
+        rdfs:label "Brillo del cielo nocturno"@es ;
+        sdmx-attribute:unitMeasure <http://qudt.org/vocab/unit/MagPerArcsecSquared> ;
+        schema:minValue "21.70"^^xsd:decimal ;
+        schema:maxValue "21.89"^^xsd:decimal
+    ] .
+
+ex:Bortle3 a skos:Concept ;
+    skos:prefLabel "Bortle 3"@es ;
+    ex:tipoEntorno ex:EntornoRural ;
+    qb:measureType [
+        a qb:MeasureProperty ;
+        rdfs:label "Brillo del cielo nocturno"@es ;
+        sdmx-attribute:unitMeasure <http://qudt.org/vocab/unit/MagPerArcsecSquared> ;
+        schema:minValue "21.30"^^xsd:decimal ;
+        schema:maxValue "21.69"^^xsd:decimal
+    ] .
+
+ex:Bortle4 a skos:Concept ;
+    skos:prefLabel "Bortle 4"@es ;
+    ex:tipoEntorno ex:EntornoRural ;
+    qb:measureType [
+        a qb:MeasureProperty ;
+        rdfs:label "Brillo del cielo nocturno"@es ;
+        sdmx-attribute:unitMeasure <http://qudt.org/vocab/unit/MagPerArcsecSquared> ;
+        schema:minValue "20.50"^^xsd:decimal ;
+        schema:maxValue "21.29"^^xsd:decimal
+    ] .
+
+ex:Bortle5 a skos:Concept ;
+    skos:prefLabel "Bortle 5"@es ;
+    ex:tipoEntorno ex:EntornoSuburbano ;
+    qb:measureType [
+        a qb:MeasureProperty ;
+        rdfs:label "Brillo del cielo nocturno"@es ;
+        sdmx-attribute:unitMeasure <http://qudt.org/vocab/unit/MagPerArcsecSquared> ;
+        schema:minValue "19.50"^^xsd:decimal ;
+        schema:maxValue "20.49"^^xsd:decimal
+    ] .
+
+ex:Bortle6 a skos:Concept ;
+    skos:prefLabel "Bortle 6"@es ;
+    ex:tipoEntorno ex:EntornoUrbano ;
+    qb:measureType [
+        a qb:MeasureProperty ;
+        rdfs:label "Brillo del cielo nocturno"@es ;
+        sdmx-attribute:unitMeasure <http://qudt.org/vocab/unit/MagPerArcsecSquared> ;
+        schema:minValue "18.50"^^xsd:decimal ;
+        schema:maxValue "19.49"^^xsd:decimal
+    ] .
+
+ex:Bortle7 a skos:Concept ;
+    skos:prefLabel "Bortle 7"@es ;
+    ex:tipoEntorno ex:EntornoUrbano ;
+    qb:measureType [
+        a qb:MeasureProperty ;
+        rdfs:label "Brillo del cielo nocturno"@es ;
+        sdmx-attribute:unitMeasure <http://qudt.org/vocab/unit/MagPerArcsecSquared> ;
+        schema:minValue "17.50"^^xsd:decimal ;
+        schema:maxValue "18.49"^^xsd:decimal
+    ] .
+
+ex:Bortle8 a skos:Concept ;
+    skos:prefLabel "Bortle 8"@es ;
+    ex:tipoEntorno ex:EntornoCiudad ;
+    qb:measureType [
+        a qb:MeasureProperty ;
+        rdfs:label "Brillo del cielo nocturno"@es ;
+        sdmx-attribute:unitMeasure <http://qudt.org/vocab/unit/MagPerArcsecSquared> ;
+        schema:minValue "16.50"^^xsd:decimal ;
+        schema:maxValue "17.49"^^xsd:decimal
+    ] .
+
+ex:Bortle9 a skos:Concept ;
+    skos:prefLabel "Bortle 9"@es ;
+    ex:tipoEntorno ex:EntornoCentroCiudad ;
+    qb:measureType [
+        a qb:MeasureProperty ;
+        rdfs:label "Brillo del cielo nocturno"@es ;
+        sdmx-attribute:unitMeasure <http://qudt.org/vocab/unit/MagPerArcsecSquared> ;
+        schema:minValue "0.00"^^xsd:decimal ;
+        schema:maxValue "16.49"^^xsd:decimal
+    ] .
+

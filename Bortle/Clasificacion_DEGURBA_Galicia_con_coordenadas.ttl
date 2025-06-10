@@ -1,0 +1,90 @@
+@prefix ex: <http://example.org#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sdmx-attribute: <http://purl.org/linked-data/sdmx/2009/attribute#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:GradoUrbanizacion a skos:ConceptScheme ;
+    skos:prefLabel "Clasificación del grado de urbanización"@es .
+
+ex:ZonaIntermedia a skos:Concept ;
+    qb:measureType [ a qb:MeasureProperty ;
+            rdfs:label "Densidad de población"@es ;
+            sdmx-attribute:unitMeasure <http://qudt.org/vocab/unit/PeoplePerSquareKilometre> ;
+            schema:minValue "300.0"^^xsd:float ] ;
+    schema:population [ a schema:QuantitativeValue ;
+            schema:minValue 5000 ;
+            schema:unitText "personas" ] ;
+    skos:definition "Áreas con una densidad de al menos 300 hab/km² y una población total superior a 5.000 habitantes."@es ;
+    skos:inScheme ex:GradoUrbanizacion ;
+    skos:prefLabel "Ciudad pequeña"@es .
+
+ex:ZonaUrbana a skos:Concept ;
+    qb:measureType [ a qb:MeasureProperty ;
+            rdfs:label "Densidad de población"@es ;
+            sdmx-attribute:unitMeasure <http://qudt.org/vocab/unit/PeoplePerSquareKilometre> ;
+            schema:minValue "1500.0"^^xsd:float ] ;
+    schema:population [ a schema:QuantitativeValue ;
+            schema:minValue 50000 ;
+            schema:unitText "personas" ] ;
+    skos:definition "Concentraciones urbanas con al menos 50.000 habitantes y una densidad mínima de 1.500 hab/km²."@es ;
+    skos:inScheme ex:GradoUrbanizacion ;
+    skos:prefLabel "Zona urbana"@es .
+
+ex:ZonaRural a skos:Concept ;
+    qb:measureType [ a qb:MeasureProperty ;
+            rdfs:label "Densidad de población"@es ;
+            sdmx-attribute:unitMeasure <http://qudt.org/vocab/unit/PeoplePerSquareKilometre> ;
+            schema:maxValue "300.0"^^xsd:float ] ;
+    schema:population [ a schema:QuantitativeValue ;
+            schema:maxValue 5000 ;
+            schema:unitText "personas" ] ;
+    skos:definition "Áreas donde más del 50% de la población vive en celdas con menos de 300 hab/km²."@es ;
+    skos:inScheme ex:GradoUrbanizacion ;
+    skos:prefLabel "Zona rural"@es .
+
+ex:CercedoCotobade a ex:Localidad ;
+    rdfs:label "Cercedo-Cotobade"@es ;
+    ex:gradoUrbanizacion ex:ZonaRural ;
+    geo:lat "42.4333"^^xsd:float ;
+    geo:long "-8.5167"^^xsd:float .
+
+ex:Coruna a ex:Localidad ;
+    rdfs:label "A Coruña"@es ;
+    ex:gradoUrbanizacion ex:ZonaUrbana ;
+    geo:lat "43.3623"^^xsd:float ;
+    geo:long "-8.4115"^^xsd:float .
+
+ex:Forcarei a ex:Localidad ;
+    rdfs:label "Forcarei"@es ;
+    ex:gradoUrbanizacion ex:ZonaRural ;
+    geo:lat "42.5301"^^xsd:float ;
+    geo:long "-8.3652"^^xsd:float .
+
+ex:IllasCies a ex:Localidad ;
+    rdfs:label "Illas Cíes"@es ;
+    ex:gradoUrbanizacion ex:ZonaRural ;
+    geo:lat "42.22"^^xsd:float ;
+    geo:long "-8.9"^^xsd:float .
+
+ex:Pedrafita a ex:Localidad ;
+    rdfs:label "Pedrafita do Cebreiro"@es ;
+    ex:gradoUrbanizacion ex:ZonaRural ;
+    geo:lat "42.7254"^^xsd:float ;
+    geo:long "-7.0246"^^xsd:float .
+
+ex:Pontevedra a ex:Localidad ;
+    rdfs:label "Pontevedra"@es ;
+    ex:gradoUrbanizacion ex:ZonaIntermedia ;
+    geo:lat "42.4333"^^xsd:float ;
+    geo:long "-8.6333"^^xsd:float .
+
+ex:Vigo a ex:Localidad ;
+    rdfs:label "Vigo"@es ;
+    ex:gradoUrbanizacion ex:ZonaUrbana ;
+    geo:lat "42.2406"^^xsd:float ;
+    geo:long "-8.7207"^^xsd:float .
+

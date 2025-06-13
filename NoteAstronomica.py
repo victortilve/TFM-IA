@@ -1,3 +1,5 @@
+#En Google Colab se ejecuta en 40minutos para un año de noches
+
 from skyfield.api import load, Topos
 from datetime import datetime, timedelta
 import pytz

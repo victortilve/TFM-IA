@@ -1,0 +1,67 @@
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix ex: <http://example.org/> .
+@prefix ex1: <http://example.org#> .
+@prefix fiesta: <http://ontology.fiesta-iot.eu/ontologyComponents#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:NightSkyBrightness a rdfs:Class ;
+    rdfs:label "Night Sky Brightness Observation" ;
+    rdfs:comment "Clase que representa una observación del brillo del cielo nocturno con parámetros astronómicos y meteorológicos." ;
+    rdfs:subClassOf sosa:Observation .
+
+ex:SQM a rdfs:Class ;
+    rdfs:label "Sensor Sky Quality Meter (SQM)" ;
+    dc:creator ex:Unihedron ;
+    rdfs:comment "Clase de sensores para medir el brillo del cielo nocturno." ;
+    rdfs:subClassOf sosa:Sensor .
+
+ex:SQM_LE a rdfs:Class ;
+    rdfs:label "SQM-LE" ;
+    fiesta:hasInterface fiesta:Ethernet_Interface ;
+    rdfs:comment "Modelo de SQM con conectividad Ethernet." ;
+    rdfs:subClassOf ex:SQM .
+
+ex:SQM_LR a rdfs:Class ;
+    rdfs:label "SQM-LR" ;
+    fiesta:hasInterface fiesta:RS232_Interface ;
+    rdfs:comment "Modelo de SQM con conectividad RS232." ;
+    rdfs:subClassOf ex:SQM .
+
+ex:SQM_LU a rdfs:Class ;
+    rdfs:label "SQM-LU" ;
+    fiesta:hasInterface fiesta:USB_Interface ;
+    rdfs:comment "Modelo de SQM con conectividad USB." ;
+    rdfs:subClassOf ex:SQM .
+
+ex:SQM_LU_DL a rdfs:Class ;
+    rdfs:label "SQM-LU-DL" ;
+    fiesta:hasInterface fiesta:USB_Interface ;
+    rdfs:comment "Modelo de SQM con conectividad USB y almacenamiento interno de datos." ;
+    rdfs:subClassOf ex:SQM_LU .
+
+ex:SQM_SpectralBand a qudt:SpectralBand ;
+    rdfs:label "Banda Espectral del SQM" ;
+    qudt:lowerBound 400.0 ;
+    qudt:upperBound 700.0 ;
+    rdfs:comment "El SQM mide en el espectro visible entre 400 nm y 700 nm." ;
+    rdfs:domain ex:SQM .
+
+ex:SkyBrightness a sosa:ObservableProperty ;
+    rdfs:label "Brillo del cielo" ;
+    rdfs:comment "Medición del brillo del cielo nocturno en magnitudes por arcosegundo cuadrado." .
+
+qudt:hasSpectralBand a rdf:Property ;
+    rdfs:label "Banda Espectral" ;
+    rdfs:comment "Banda espectral en la que el sensor realiza sus mediciones." ;
+    rdfs:range qudt:SpectralBand .
+
+ex:Unihedron a foaf:Organization ;
+    rdfs:label "Unihedron - Fabricante de Sky Quality Meter (SQM)" ;
+    rdfs:domain ex:SQM ;
+    foaf:name "Unihedron" .
+

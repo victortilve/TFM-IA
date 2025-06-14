@@ -8,6 +8,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sosa: <http://www.w3.org/ns/sosa/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix swe: <http://www.opengis.net/ont/swe/2.0/> .
 
 ex:NightSkyBrightness a rdfs:Class ;
     rdfs:label "Night Sky Brightness Observation" ;
@@ -18,7 +19,7 @@ ex:SQM a rdfs:Class ;
     rdfs:label "Sensor Sky Quality Meter (SQM)" ;
     dc:creator ex:Unihedron ;
     rdfs:comment "Clase de sensores para medir el brillo del cielo nocturno." ;
-    rdfs:subClassOf sosa:Sensor .
+    rdfs:subClassOf sosa:Sensor ,
 
 ex:SQM_LE a rdfs:Class ;
     rdfs:label "SQM-LE" ;
@@ -44,15 +45,40 @@ ex:SQM_LU_DL a rdfs:Class ;
     rdfs:comment "Modelo de SQM con conectividad USB y almacenamiento interno de datos." ;
     rdfs:subClassOf ex:SQM_LU .
 
+# Definición de la banda espectral
 ex:SQM_SpectralBand a qudt:SpectralBand ;
-    rdfs:label "Banda Espectral del SQM" ;
-    qudt:lowerBound 400.0 ;
-    qudt:upperBound 700.0 ;
-    rdfs:comment "El SQM mide en el espectro visible entre 400 nm y 700 nm." ;
-    rdfs:domain ex:SQM .
+    rdfs:label "Banda espectral del SQM"@es ;
+    rdfs:comment "El SQM mide en el espectro visible entre 400 nm y 700 nm."@es ;
+    qudt:lowerBound [
+        qudt:numericValue "400.0"^^xsd:float ;
+        qudt:unit qudt-unit:NanoM
+    ] ;
+    qudt:upperBound [
+        qudt:numericValue "700.0"^^xsd:float ;
+        qudt:unit qudt-unit:NanoM
+    ] .
+
+# Apertura
+ex:SQM_FieldOfView a swe:FieldOfView ;
+    rdfs:label "Campo de visión estándar del sensor SQM"@es ;
+    swe:angularDistance [
+        swe:uom "deg" ;
+        swe:value "20.0"^^xsd:float
+    ] .
+ex:hasFieldOfView a rdf:Property ;
+    rdfs:label "tiene campo de visión"@es ;
+    rdfs:domain sosa:Sensor ;
+    rdfs:range swe:FieldOfView .
+
+ex:MagPerArcsecSquared a qudt:Unit ;
+    rdfs:label "Magnitudes por arcosegundo cuadrado"@es ;
+    qudt:symbol "mag/arcsec²" ;
+    qudt:unitType qudt:LogarithmicUnit ;
+    rdfs:comment "Unidad logarítmica astronómica usada para medir el brillo superficial del cielo nocturno." .
 
 ex:SkyBrightness a sosa:ObservableProperty ;
     rdfs:label "Brillo del cielo" ;
+    qudt:unit ex:MagPerArcsecSquared ;
     rdfs:comment "Medición del brillo del cielo nocturno en magnitudes por arcosegundo cuadrado." .
 
 qudt:hasSpectralBand a rdf:Property ;

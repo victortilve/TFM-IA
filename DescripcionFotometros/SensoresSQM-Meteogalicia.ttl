@@ -29,7 +29,6 @@ ex:SQM_Network_MeteoGalicia a ex:PhotometerNetwork ;
     
 ex:SQM_Campolongo_PON_42.425896_-8.643984 a ex:SQM_LR ;
     rdfs:label "SQM Campolongo (PON)" ;
-    ex:gradoDEGURBA ex:ZonaUrbana ;
     dcterms:isPartOf ex:SQM_Network_MeteoGalicia ;
     rdfs:comment "Sensor de brillo del cielo instalado en Campolongo (Pontevedra), parte de la red MeteoGalicia." ;
     geo:hasGeometry [
@@ -40,7 +39,6 @@ ex:SQM_Campolongo_PON_42.425896_-8.643984 a ex:SQM_LR ;
 
 ex:SQM_Cervantes_ANC_42.820778_-6.922902 a ex:SQM_LR ;
     rdfs:label "SQM Cervantes (ANC)" ;
-    ex:gradoDEGURBA ex:ZonaRural ;
     dcterms:isPartOf ex:SQM_Network_MeteoGalicia ;
     rdfs:comment "Sensor de brillo del cielo instalado en Cervantes (Ancares), parte de la red MeteoGalicia." ;
     geo:hasGeometry [
@@ -51,7 +49,6 @@ ex:SQM_Cervantes_ANC_42.820778_-6.922902 a ex:SQM_LR ;
 
 ex:SQM_Forcarei_FOR_42.610943_-8.370965 a ex:SQM_LR ;
     rdfs:label "SQM Forcarei (FOR)" ;
-    ex:gradoDEGURBA ex:ZonaRural ;
     dcterms:isPartOf ex:SQM_Network_MeteoGalicia ;
     rdfs:comment "Sensor de brillo del cielo instalado en Forcarei, parte de la red MeteoGalicia." ;
     geo:hasGeometry [
@@ -62,7 +59,6 @@ ex:SQM_Forcarei_FOR_42.610943_-8.370965 a ex:SQM_LR ;
 
 ex:SQM_IllasCies_CIE_42.213900_-8.906000 a ex:SQM_LR ;
     rdfs:label "SQM Illas Cíes (CIE)" ;
-    ex:gradoDEGURBA ex:ZonaRural ;
     dcterms:isPartOf ex:SQM_Network_MeteoGalicia ;
     rdfs:comment "Sensor de brillo del cielo instalado en las Illas Cíes, parte de la red MeteoGalicia." ;
     geo:hasGeometry [
@@ -73,7 +69,6 @@ ex:SQM_IllasCies_CIE_42.213900_-8.906000 a ex:SQM_LR ;
 
 ex:SQM_OCebreiro_PED_42.707104_-7.047078 a ex:SQM_LR ;
     rdfs:label "SQM O Cebreiro (PED)" ;
-    ex:gradoDEGURBA ex:ZonaRural ;
     dcterms:isPartOf ex:SQM_Network_MeteoGalicia ;
     rdfs:comment "Sensor de brillo del cielo instalado en O Cebreiro, parte de la red MeteoGalicia." ;
     geo:hasGeometry [
@@ -84,7 +79,6 @@ ex:SQM_OCebreiro_PED_42.707104_-7.047078 a ex:SQM_LR ;
 
 ex:SQM_PortoVigo_VIG_42.241670_-8.727587 a ex:SQM_LR ;
     rdfs:label "SQM Porto de Vigo (VIG)" ;
-    ex:gradoDEGURBA ex:ZonaUrbana ;
     dcterms:isPartOf ex:SQM_Network_MeteoGalicia ;
     rdfs:comment "Sensor de brillo del cielo instalado en el Porto de Vigo, parte de la red MeteoGalicia." ;
     geo:hasGeometry [
@@ -95,7 +89,6 @@ ex:SQM_PortoVigo_VIG_42.241670_-8.727587 a ex:SQM_LR ;
 
 ex:SQM_TorreHercules_COR_43.382763_-8.409202 a ex:SQM_LR ;
     rdfs:label "SQM Torre de Hércules (COR)" ;
-    ex:gradoDEGURBA ex:ZonaUrbana ;
     dcterms:isPartOf ex:SQM_Network_MeteoGalicia ;
     rdfs:comment "Sensor de brillo del cielo instalado en la Torre de Hércules (A Coruña), parte de la red MeteoGalicia." ;
     geo:hasGeometry [
@@ -106,7 +99,6 @@ ex:SQM_TorreHercules_COR_43.382763_-8.409202 a ex:SQM_LR ;
     
 ex:SQM_Guisamo_BER_43.307995_-8.276487 a ex:SQM_LR ;
     rdfs:label "SQM Guísamo (BER)" ;
-    ex:gradoDEGURBA ex:ZonaIntermedia ;
     dcterms:isPartOf ex:SQM_Network_MeteoGalicia ;
     rdfs:comment "Sensor de brillo del cielo instalado en Guísamo (Bergondo), parte de la red MeteoGalicia." ;
     geo:hasGeometry [
@@ -117,7 +109,6 @@ ex:SQM_Guisamo_BER_43.307995_-8.276487 a ex:SQM_LR ;
 
 ex:SQM_PenedoDoGalo_VIV_43.660763_-7.562965 a ex:SQM_LR ;
     rdfs:label "SQM Penedo do Galo (VIV)" ;
-    ex:gradoDEGURBA ex:ZonaIntermedia ;
     dcterms:isPartOf ex:SQM_Network_MeteoGalicia ;
     rdfs:comment "Sensor de brillo del cielo instalado en Penedo do Galo(Viveiro), parte de la red MeteoGalicia." ;
     geo:hasGeometry [

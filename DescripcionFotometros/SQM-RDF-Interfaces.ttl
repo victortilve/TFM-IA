@@ -35,7 +35,7 @@ ex:SQM a sosa:Sensor;
     ex:hasSpectralBand ex:SQM_SpectralBand ;
     ex:hasDefaultUnit om:magnitudePerSecond-AngleSquared ;
     ex:hasFWHM ex:SQM_FWHM;
-    ex:hasFieldOfView om:SQM_FoV .
+    ex:hasFieldOfView ex:SQM_FoV .
 
 ex:TSL237 a sosa:Sensor;
     dc:isPartOf ex:SQM ;

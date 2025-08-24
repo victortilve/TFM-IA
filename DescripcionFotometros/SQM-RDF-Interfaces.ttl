@@ -1,93 +1,130 @@
 @prefix dc: <http://purl.org/dc/terms/> .
-@prefix ex: <http://example.org/> .
-@prefix ex1: <http://example.org#> .
-@prefix fiesta: <http://ontology.fiesta-iot.eu/ontologyComponents#> .
+@prefix ex: <http://example.org#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix qudt-unit: <https://qudt.org/vocab/unit/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sosa: <http://www.w3.org/ns/sosa/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix swe: <http://www.opengis.net/ont/swe/2.0/> .
+@prefix om: <http://www.ontology-of-units-of-measure.org/resource/om-2/> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
-ex:NightSkyBrightness a rdfs:Class ;
-    rdfs:label "Night Sky Brightness Observation" ;
-    rdfs:comment "Clase que representa una observación del brillo del cielo nocturno con parámetros astronómicos y meteorológicos." ;
-    rdfs:subClassOf sosa:Observation .
+ex:NightSkyBrightness a sosa:ObservableProperty ;
+  rdfs:label   "Brillo del cielo nocturno"@es ,
+               "Night Sky Brightness"@en ;
+  skos:altLabel "NSB"@en ; #alternative label
+  rdfs:comment "Propiedad observable que representa el brillo del cielo nocturno; puede incluir componente natural (Luna, Vía Láctea) y artificial (ALAN)."@es .
 
-ex:SQM a rdfs:Class ;
-    rdfs:label "Sensor Sky Quality Meter (SQM)" ;
+ex:ArtificialLightAtNight a sosa:ObservableProperty ;
+  rdfs:label   "Luz artificial nocturna"@es ,
+               "Artificial Light at Night"@en ;
+  skos:altLabel "ALAN"@en ; #alternative label
+  rdfs:comment "Propiedad observable que representa la luz artificial presente durante la noche (dirección, espectro, intensidad, temporalidad)."@es .
+
+
+ex:SQM a sosa:Sensor;
+	sosa:observes ex:NightSkyBrightness;
+	dc:hasPart ex:TSL237;
+    dc:hasPart ex:HOYA_CM-500_filter;
+    rdfs:label "Fotómetro Sky Quality Meter (SQM)."@es ;
     dc:creator ex:Unihedron ;
-    rdfs:comment "Clase de sensores para medir el brillo del cielo nocturno." ;
-    rdfs:subClassOf sosa:Sensor ,
+    rdfs:seeAlso <https://www.unihedron.com/projects/darksky/>;
+    rdfs:comment "Clase de fotómetros para medir el brillo del cielo nocturno. Se define a partir del SQM-L y se abusa del lenguaje"@es ;
+    ex:hasSpectralBand ex:SQM_SpectralBand ;
+    ex:hasDefaultUnit om:magnitudePerSecond-AngleSquared ;
+    ex:hasFWHM ex:SQM_FWHM;
+    ex:hasFieldOfView om:SQM_FoV .
 
-ex:SQM_LE a rdfs:Class ;
-    rdfs:label "SQM-LE" ;
-    fiesta:hasInterface fiesta:Ethernet_Interface ;
-    rdfs:comment "Modelo de SQM con conectividad Ethernet." ;
-    rdfs:subClassOf ex:SQM .
+ex:TSL237 a sosa:Sensor;
+    dc:isPartOf ex:SQM ;
+	rdfs:seeAlso <https://ams-osram.com/products/photodetectors/photodiodes/ams-tsl237-light-to-frequency> ;
+	rdfs:comment "Convertidor de luz a frecuencia."@es .
+    
+ex:HOYA_CM-500_filter a sosa:Sensor;
+    dc:isPartOf ex:SQM ;
+    rdfs:seeAlso <https://www.uqgoptics.com/materials/hoya-cm-500/>;
+	rdfs:comment "Filtro de color."@es .
 
-ex:SQM_LR a rdfs:Class ;
-    rdfs:label "SQM-LR" ;
-    fiesta:hasInterface fiesta:RS232_Interface ;
-    rdfs:comment "Modelo de SQM con conectividad RS232." ;
-    rdfs:subClassOf ex:SQM .
+ex:SQM_LE a sosa:Sensor ;
+    rdfs:label "SQM-LE"@es ;
+    rdfs:comment "Modelo de SQM con conectividad Ethernet."@es ;
+    dc:isVersionOf ex:SQM .
 
-ex:SQM_LU a rdfs:Class ;
-    rdfs:label "SQM-LU" ;
-    fiesta:hasInterface fiesta:USB_Interface ;
-    rdfs:comment "Modelo de SQM con conectividad USB." ;
-    rdfs:subClassOf ex:SQM .
+ex:SQM_LR a sosa:Sensor ;
+    rdfs:label "SQM-LR"@es ;
+    rdfs:comment "Modelo de SQM con conectividad RS232."@es ;
+    dc:isVersionOf ex:SQM .
 
-ex:SQM_LU_DL a rdfs:Class ;
-    rdfs:label "SQM-LU-DL" ;
-    fiesta:hasInterface fiesta:USB_Interface ;
-    rdfs:comment "Modelo de SQM con conectividad USB y almacenamiento interno de datos." ;
-    rdfs:subClassOf ex:SQM_LU .
+ex:SQM_LU a sosa:Sensor ;
+    rdfs:label "SQM-LU"@es ;
+    rdfs:comment "Modelo de SQM con conectividad USB."@es ;
+    dc:isVersionOf ex:SQM .
+
+ex:SQM_LU_DL a sosa:Sensor ;
+    rdfs:label "SQM-LU-DL"@es ;
+    rdfs:comment "Modelo de SQM con conectividad USB y almacenamiento interno de datos."@es ;
+    dc:isVersionOf ex:SQM .
 
 # Definición de la banda espectral
-ex:SQM_SpectralBand a qudt:SpectralBand ;
+ex:SQM_SpectralBand a om:SpectralResponse ;
     rdfs:label "Banda espectral del SQM"@es ;
     rdfs:comment "El SQM mide en el espectro visible entre 400 nm y 700 nm."@es ;
     qudt:lowerBound [
+        a qudt:QuantityValue ;
         qudt:numericValue "400.0"^^xsd:float ;
         qudt:unit qudt-unit:NanoM
     ] ;
     qudt:upperBound [
+        a qudt:QuantityValue ;
         qudt:numericValue "700.0"^^xsd:float ;
         qudt:unit qudt-unit:NanoM
     ] .
 
 # Apertura
-ex:SQM_FieldOfView a swe:FieldOfView ;
+ex:SQM_FoV a om:SolidAngle ;
     rdfs:label "Campo de visión estándar del sensor SQM"@es ;
-    swe:angularDistance [
-        swe:uom "deg" ;
-        swe:value "20.0"^^xsd:float
-    ] .
-ex:hasFieldOfView a rdf:Property ;
-    rdfs:label "tiene campo de visión"@es ;
-    rdfs:domain sosa:Sensor ;
-    rdfs:range swe:FieldOfView .
+    rdfs:seeAlso <https://www.unihedron.com/projects/darksky/faqsqm.php>;
+    om:hasValue [
+        a qudt:QuantityValue ;
+        qudt:numericValue "1.532"^^xsd:float ;
+        qudt:unit om:steradian 
+    ].
 
-ex:MagPerArcsecSquared a qudt:Unit ;
-    rdfs:label "Magnitudes por arcosegundo cuadrado"@es ;
-    qudt:symbol "mag/arcsec²" ;
-    qudt:unitType qudt:LogarithmicUnit ;
-    rdfs:comment "Unidad logarítmica astronómica usada para medir el brillo superficial del cielo nocturno." .
+ex:SQM_FWHM a om:Angle;
+    rdfs:comment "FWHM (Full Width at Half Maximum) del campo de visión angular del sensor SQM. Representa el ángulo con sensibilidad superior al 50% del máximo."@es ;
+    rdfs:seeAlso <https://unihedron.com/projects/sqm-l/fovannotated.jpg> ;
+    rdfs:seeAlso wd:Q1065170 ; #FWHM en WikiData
+    om:hasValue [
+        a qudt:QuantityValue ;
+        qudt:numericValue "20"^^xsd:float ;
+        qudt:unit om:degree 
+    ].
+    
+ex:hasFieldOfView a ssn:Property ;
+    rdfs:label "tiene campo de visión"@es ;
+    rdfs:domain sosa:Sensor .
+    
+ex:hasFWHM a ssn:Property ;
+    rdfs:label "tiene FWHM"@es ;
+    rdfs:domain sosa:Sensor .
 
 ex:SkyBrightness a sosa:ObservableProperty ;
     rdfs:label "Brillo del cielo" ;
-    qudt:unit ex:MagPerArcsecSquared ;
     rdfs:comment "Medición del brillo del cielo nocturno en magnitudes por arcosegundo cuadrado." .
 
-qudt:hasSpectralBand a rdf:Property ;
+ex:hasSpectralBand a rdf:Property ;
     rdfs:label "Banda Espectral" ;
     rdfs:comment "Banda espectral en la que el sensor realiza sus mediciones." ;
-    rdfs:range qudt:SpectralBand .
+    rdfs:range om:SpectralResponse .
+    
+ex:hasDefaultUnit a rdf:Property ;
+    rdfs:label "Unidad por defecto"@es ;
+    rdfs:comment "Unidad en la que este sensor produce sus resultados por defecto."@es ;
+    rdfs:domain sosa:Sensor ;
+    rdfs:range om:UnitDivision .
 
 ex:Unihedron a foaf:Organization ;
     rdfs:label "Unihedron - Fabricante de Sky Quality Meter (SQM)" ;
-    rdfs:domain ex:SQM ;
     foaf:name "Unihedron" .
-

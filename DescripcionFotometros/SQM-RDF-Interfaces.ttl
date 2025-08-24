@@ -10,6 +10,8 @@
 @prefix om: <http://www.ontology-of-units-of-measure.org/resource/om-2/> .
 @prefix ssn: <http://www.w3.org/ns/ssn/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix om: <http://www.ontology-of-units-of-measure.org/resource/om-2/> .
+
 
 ex:NightSkyBrightness a sosa:ObservableProperty ;
   rdfs:label   "Brillo del cielo nocturno"@es ,

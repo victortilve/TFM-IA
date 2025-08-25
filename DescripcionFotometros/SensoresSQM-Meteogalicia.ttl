@@ -18,6 +18,7 @@ ex:PhotometerNetwork a rdfs:Class ;
 # Organización responsable
 ex:MeteoGalicia a foaf:Organization ;
     rdfs:label "MeteoGalicia"@es ;
+    foaf:homepage <https://www.meteogalicia.gal> ;
     owl:sameAs wd:Q3395641 .
 
 # Instancia para la red de SQMs

@@ -1,0 +1,25 @@
+@prefix ex: <http://example.org#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix om: <http://www.ontology-of-units-of-measure.org/resource/om-2/> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+
+ex:hasFieldOfView a ssn:Property ;
+    rdfs:label "tiene campo de visión"@es ;
+    rdfs:domain sosa:Sensor .
+    
+ex:hasFWHM a ssn:Property ;
+    rdfs:label "tiene FWHM"@es ;
+    rdfs:domain sosa:Sensor .
+
+ex:hasSpectralBand a ssn:Property ;
+    rdfs:label "Banda Espectral" ;
+    rdfs:comment "Banda espectral en la que el sensor realiza sus mediciones." ;
+    rdfs:domain sosa:Sensor ;
+    rdfs:range om:SpectralResponse .
+    
+ex:hasDefaultUnit a rdf:Property ;
+    rdfs:label "Unidad por defecto"@es ;
+    rdfs:comment "Unidad en la que este sensor produce sus resultados por defecto."@es ;
+    rdfs:domain sosa:Sensor ;
+    rdfs:range om:UnitDivision .

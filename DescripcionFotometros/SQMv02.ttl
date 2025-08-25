@@ -1,6 +1,5 @@
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix ex: <http://example.org#> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix qudt: <http://qudt.org/schema/qudt/> .
 @prefix qudt-unit: <https://qudt.org/vocab/unit/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -9,20 +8,6 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix om: <http://www.ontology-of-units-of-measure.org/resource/om-2/> .
 @prefix ssn: <http://www.w3.org/ns/ssn/> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-
-ex:NightSkyBrightness a sosa:ObservableProperty ;
-  rdfs:label   "Brillo del cielo nocturno"@es ,
-               "Night Sky Brightness"@en ;
-  skos:altLabel "NSB"@en ; #alternative label
-  rdfs:comment "Propiedad observable que representa el brillo del cielo nocturno; puede incluir componente natural (Luna, Vía Láctea) y artificial (ALAN)."@es .
-
-ex:ArtificialLightAtNight a sosa:ObservableProperty ;
-  rdfs:label   "Luz artificial nocturna"@es ,
-               "Artificial Light at Night"@en ;
-  skos:altLabel "ALAN"@en ; #alternative label
-  rdfs:comment "Propiedad observable que representa la luz artificial presente durante la noche (dirección, espectro, intensidad, temporalidad)."@es .
-
 
 ex:SQM a sosa:Sensor;
 	sosa:observes ex:NightSkyBrightness;
@@ -45,7 +30,7 @@ ex:TSL237 a sosa:Sensor;
 ex:HOYA_CM-500_filter a sosa:Sensor;
     dc:isPartOf ex:SQM ;
     rdfs:seeAlso <https://www.uqgoptics.com/materials/hoya-cm-500/>;
-	rdfs:comment "Filtro de color."@es .
+	rdfs:comment "Filtro de color Hoya CM-500."@es .
 
 ex:SQM_LE a sosa:Sensor ;
     rdfs:label "SQM-LE"@es ;
@@ -101,30 +86,3 @@ ex:SQM_FWHM a om:Angle;
         qudt:numericValue "20"^^xsd:float ;
         qudt:unit om:degree 
     ].
-    
-ex:hasFieldOfView a ssn:Property ;
-    rdfs:label "tiene campo de visión"@es ;
-    rdfs:domain sosa:Sensor .
-    
-ex:hasFWHM a ssn:Property ;
-    rdfs:label "tiene FWHM"@es ;
-    rdfs:domain sosa:Sensor .
-
-ex:SkyBrightness a sosa:ObservableProperty ;
-    rdfs:label "Brillo del cielo" ;
-    rdfs:comment "Medición del brillo del cielo nocturno en magnitudes por arcosegundo cuadrado." .
-
-ex:hasSpectralBand a rdf:Property ;
-    rdfs:label "Banda Espectral" ;
-    rdfs:comment "Banda espectral en la que el sensor realiza sus mediciones." ;
-    rdfs:range om:SpectralResponse .
-    
-ex:hasDefaultUnit a rdf:Property ;
-    rdfs:label "Unidad por defecto"@es ;
-    rdfs:comment "Unidad en la que este sensor produce sus resultados por defecto."@es ;
-    rdfs:domain sosa:Sensor ;
-    rdfs:range om:UnitDivision .
-
-ex:Unihedron a foaf:Organization ;
-    rdfs:label "Unihedron - Fabricante de Sky Quality Meter (SQM)" ;
-    foaf:name "Unihedron" .

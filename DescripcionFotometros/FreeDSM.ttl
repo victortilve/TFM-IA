@@ -1,0 +1,61 @@
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix ex: <http://example.org#> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix qudt-unit: <https://qudt.org/vocab/unit/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix om: <http://www.ontology-of-units-of-measure.org/resource/om-2/> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+
+ex:FreeDSM a sosa:Sensor;
+	sosa:observes ex:NightSkyBrightness;
+	dc:hasPart ex:TSL2591;
+    dc:hasPart ex:AHT2x;
+    rdfs:label "Fotómetro Free Dark Sky Meter (FreeDSM)."@es ;
+    dc:creator ex:Gaia4sustainability ;
+    rdfs:seeAlso <https://gitlab.citic.udc.es/lia2-publico/g4s/-/wikis/home>;
+    rdfs:seeAlso <http://hdl.handle.net/2183/32824>
+    rdfs:comment "Fotómetro de bajo coste con instrucciones para construirlo desde cero."@es ;
+    ex:hasSpectralBand ex:FreeDSM_SpectralBand ;
+    ex:hasDefaultUnit om:magnitudePerSecond-AngleSquared ;
+    ex:hasFWHM ex:FreeDSM_FWHM;
+    ex:hasFieldOfView ex:FreeDSM_FoV .
+
+ex:TSL2591 a sosa:Sensor;
+    dc:isPartOf ex:FreeDSM ;
+	rdfs:seeAlso <https://ams-osram.com/products/photodetectors/photodiodes/ams-tsl237-light-to-frequency> ;
+	rdfs:comment "Sensor de luz ambiental."@es .
+
+ex:AHT2x a sosa:Sensor;
+    dc:isPartOf ex:FreeDSM ;
+	rdfs:seeAlso <https://tasmota.github.io/docs/AHT2x/> ;
+	rdfs:comment "Sensor de temperatura y humedad."@es .
+
+# Definición de la banda espectral
+ex:FreeDSM_SpectralBand a om:SpectralResponse ;
+    rdfs:label "Banda espectral del SQM"@es ;
+    rdfs:comment "Tiene dos fotodiodos, uno trabaja entre 300 y 700nm y el otro entre 700nm y 1000nm."@es ;
+    qudt:lowerBound [
+        a qudt:QuantityValue ;
+        qudt:numericValue "300.0"^^xsd:float ;
+        qudt:unit qudt-unit:NanoM
+    ] ;
+    qudt:upperBound [
+        a qudt:QuantityValue ;
+        qudt:numericValue "1000.0"^^xsd:float ;
+        qudt:unit qudt-unit:NanoM
+    ] .
+
+# Apertura
+ex:FreeDSM_FoV a om:Angle;
+    rdfs:comment "Campo de visión estándar del sensor FreeDSM"@es ;
+    rdfs:seeAlso <http://hdl.handle.net/2183/32824> ;
+    om:hasValue [
+        a qudt:QuantityValue ;
+        qudt:numericValue "60"^^xsd:float ;
+        qudt:unit om:degree 
+    ].
+
+

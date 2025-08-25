@@ -1,0 +1,18 @@
+@prefix ex: <http://example.org#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+ex:NightSkyBrightness a sosa:ObservableProperty ;
+  rdfs:label   "Brillo del cielo nocturno"@es ,
+               "Night Sky Brightness"@en ;
+  skos:altLabel "NSB"@en ; #alternative label
+  rdfs:comment "Propiedad observable que representa el brillo del cielo nocturno; puede incluir componente natural (Luna, Vía Láctea) y artificial (ALAN)."@es .
+
+ex:ArtificialLightAtNight a sosa:ObservableProperty ;
+  rdfs:label   "Luz artificial nocturna"@es ,
+               "Artificial Light at Night"@en ;
+  skos:altLabel "ALAN"@en ; #alternative label
+  rdfs:comment "Propiedad observable que representa la luz artificial presente durante la noche (dirección, espectro, intensidad, temporalidad)."@es .
+

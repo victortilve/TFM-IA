@@ -1,0 +1,42 @@
+@prefix ex: <http://example.org#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+# Clase para redes de sensores
+ex:PhotometerNetwork a rdfs:Class ;
+    rdfs:label "Red de fotómetros"@es ;
+    rdfs:subClassOf sosa:Platform ;
+    rdfs:comment "Grupo organizado de fotómetros con un objetivo común."@es .
+
+# Instancia para la red de SQMs
+ex:TESS_Network_Stars4All a ex:PhotometerNetwork ;
+    dcterms:isPartOf ex:Stars4All ; #definida en organizacionesFabricantes.ttl
+    rdfs:label "Red TESS de Stars4All"@es ;
+    rdfs:comment "Red de fotómetros SQM de la agencia meteorológica de Galicia, Meteogalicia."@es ;
+    foaf:homepage <https://www.meteogalicia.gal/web/ica/brillo-do-ceo> .
+    
+ex:TESS_PraiaPatos_NIG_42.149878_-8.826799 a ex:TESS-W ;
+    rdfs:label "TESS Praia de Patos (Nigrán)"@es ;
+    dcterms:isPartOf ex:TESS_Network_Stars4All ;
+    rdfs:comment "Sensor de brillo del cielo instalado en Praia de Patos (Nigrán), parte de la red Stars4All."@es ;
+    geo:hasGeometry [
+        a geo:Point ;
+        geo:asWKT "POINT(-8.826799 42.149878_)"^^geo:wktLiteral ;
+        wgs84:alt "0"^^xsd:decimal
+    ] .
+
+ex:TESS_ObservatorioForcarei_FOR_42.6106673,-8.3733263 a ex:TESS-W ;
+    rdfs:label "TESS Obs. Astron. Forcarei (Forcarei)"@es ;
+    dcterms:isPartOf ex:TESS_Network_Stars4All ;
+    rdfs:comment "Sensor de brillo del cielo instalado en el Observatorio AStron'omico de Forcarei, parte de la red Stars4All."@es ;
+    geo:hasGeometry [
+        a geo:Point ;
+        geo:asWKT "POINT(-8.3733263 42.6106673)"^^geo:wktLiteral ;
+        wgs84:alt "0"^^xsd:decimal
+    ] .
+

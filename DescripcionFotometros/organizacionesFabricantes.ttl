@@ -1,0 +1,15 @@
+@prefix ex: <http://example.org#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ex:Unihedron a foaf:Organization ;
+    rdfs:label "Unihedron" ;
+    rdfs:comment "Fabricante de Sky Quality Meter (SQM)"@es ;
+    foaf:homepage <https://www.unihedron.com/> ;
+    foaf:name "Unihedron" .
+    
+ex:Stars4All a foaf:Organization ;
+    rdfs:label "Stars4All Foundation" ;
+    rdfs:comment "Fabricante de TESS y sus derivados."@es ;
+    foaf:homepage <https://foundation.stars4all.eu/> ;
+    foaf:name "Stars4All" .

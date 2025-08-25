@@ -12,12 +12,12 @@ ex:TESS a sosa:Sensor ;
     sosa:observes ex:NightSkyBrightness;
 	dc:hasPart ex:TSL237;
     #dc:hasPart ex:dichroic_filter; #hay un filtro que no se logró identificar
-    rdfs:label "Fotómetro TESS (Telemetric Environmental Sky Sensor)" ;
+    rdfs:label "Fotómetro TESS (Telemetric Environmental Sky Sensor)"@es ;
     dc:creator ex:Stars4All ;
     rdfs:seeAlso <https://guaix.fis.ucm.es/tess/>;
     rdfs:seeAlso <https://www.observatorioremoto.com/TESS.pdf>
     rdfs:seeAlso <https://www.observatorioremoto.com/tess/tess-info.pdf>
-    rdfs:comment "Sensor fotométrico desarrollado en el proyecto STARS4ALL para medir el brillo del cielo." ;
+    rdfs:comment "Sensor fotométrico desarrollado en el proyecto STARS4ALL para medir el brillo del cielo."@es ;
     ex:hasSpectralBand ex:TESS_SpectralBand ;
     ex:hasDefaultUnit om:magnitudePerSecond-AngleSquared ;
     ex:hasFieldOfView ex:TESS_FoV .
@@ -29,18 +29,18 @@ ex:TSL237 a sosa:Sensor;
 
 ex:TESS_W a sosa:Sensor ;
     rdfs:label "TESS-W" ;
-    rdfs:comment "Modelo de TESS con conectividad GSM para transmisión remota." ;
+    rdfs:comment "Modelo de TESS con conectividad GSM para transmisión remota."@es ;
     dc:isVersionOf ex:TESS .
 
 ex:TESS_P a sosa:Sensor ;
     rdfs:label "TESS-P" ;
-    rdfs:comment "Modelo de TESS manual." ;
+    rdfs:comment "Modelo de TESS manual."@es ;
     dc:isVersionOf ex:TESS .
 
 ex:TAS a sosa:Sensor ;
     sosa:observes ex:NightSkyBrightness;
     rdfs:label "Tess Auto Scan. Fotómetro Tess de barrido"@es ;
-    rdfs:comment "TAS realiza barridos All Sky de 144 puntos" ;
+    rdfs:comment "TAS realiza barridos All Sky de 144 puntos"@es ;
     dc:isVersionOf ex:TESS .
 
 # Definición de la banda espectral

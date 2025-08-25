@@ -22,3 +22,10 @@ ex:Gaia4sustainability a foaf:Organization ;
     rdfs:comment "Conjunto de herramientas para evaluar con precisión el nivel de contaminación lumínica."@es ;
     foaf:homepage <https://gaia4sustainability.eu/gaia-4-sustainability/> ;
     foaf:name "Gaia4Sustainability" .
+
+ex:MeteoGalicia a foaf:Organization ;
+    rdfs:label "MeteoGalicia"@es ;
+    rdfs:comment "Agencia meteorológica de la comunidad autónoma de Galicia"@es ;
+    foaf:homepage <https://www.meteogalicia.gal> ;
+    foaf:name "Meteogalicia" ;
+    owl:sameAs wd:Q3395641 .

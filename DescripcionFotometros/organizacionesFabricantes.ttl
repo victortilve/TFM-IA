@@ -1,6 +1,7 @@
 @prefix ex: <http://example.org#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
 
 ex:Unihedron a foaf:Organization ;
     rdfs:label "Unihedron" ;
@@ -12,8 +13,9 @@ ex:Stars4All a foaf:Organization ;
     rdfs:label "Stars4All Foundation" ;
     rdfs:comment "Fabricante de TESS y sus derivados."@es ;
     foaf:homepage <https://foundation.stars4all.eu/> ;
-    foaf:name "Stars4All" .
-
+    foaf:name "Stars4All" ;
+    owl:sameAs wd:Q130013879 .
+    
 ex:Gaia4sustainability a foaf:Organization ;
     rdfs:label "Gaia4Sustainability project" ;
     rdfs:comment "Conjunto de herramientas para evaluar con precisión el nivel de contaminación lumínica."@es ;

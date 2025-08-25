@@ -13,3 +13,9 @@ ex:Stars4All a foaf:Organization ;
     rdfs:comment "Fabricante de TESS y sus derivados."@es ;
     foaf:homepage <https://foundation.stars4all.eu/> ;
     foaf:name "Stars4All" .
+
+ex:Gaia4sustainability a foaf:Organization ;
+    rdfs:label "Gaia4Sustainability project" ;
+    rdfs:comment "Conjunto de herramientas para evaluar con precisión el nivel de contaminación lumínica."@es ;
+    foaf:homepage <https://gaia4sustainability.eu/gaia-4-sustainability/> ;
+    foaf:name "Gaia4Sustainability" .

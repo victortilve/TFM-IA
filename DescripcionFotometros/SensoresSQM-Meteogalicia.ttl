@@ -15,12 +15,6 @@ ex:PhotometerNetwork a rdfs:Class ;
     rdfs:subClassOf sosa:Platform ;
     rdfs:comment "Grupo organizado de fotómetros con un objetivo común."@es .
 
-# Organización responsable
-ex:MeteoGalicia a foaf:Organization ;
-    rdfs:label "MeteoGalicia"@es ;
-    foaf:homepage <https://www.meteogalicia.gal> ;
-    owl:sameAs wd:Q3395641 .
-
 # Instancia para la red de SQMs
 ex:SQM_Network_MeteoGalicia a ex:PhotometerNetwork ;
     dcterms:isPartOf ex:MeteoGalicia ;

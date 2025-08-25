@@ -23,24 +23,25 @@ ex:TESS a sosa:Sensor ;
     ex:hasFieldOfView ex:TESS_FoV .
 
 ex:TSL237 a sosa:Sensor;
+    dc:isPartOf ex:TESS ;
 	rdfs:seeAlso <https://ams-osram.com/products/photodetectors/photodiodes/ams-tsl237-light-to-frequency>;
 	rdfs:comment "Convertidor de luz a frecuencia."@es .
 
 ex:TESS_W a sosa:Sensor ;
     rdfs:label "TESS-W" ;
     rdfs:comment "Modelo de TESS con conectividad GSM para transmisión remota." ;
-    dc:isPartOf ex:TESS .
+    dc:isVersionOf ex:TESS .
 
 ex:TESS_P a sosa:Sensor ;
     rdfs:label "TESS-P" ;
     rdfs:comment "Modelo de TESS manual." ;
-    dc:isPartOf ex:TESS .
+    dc:isVersionOf ex:TESS .
 
 ex:TAS a sosa:Sensor ;
     sosa:observes ex:NightSkyBrightness;
     rdfs:label "Tess Auto Scan. Fotómetro Tess de barrido"@es ;
     rdfs:comment "TAS realiza barridos All Sky de 144 puntos" ;
-
+    dc:isVersionOf ex:TESS .
 
 # Definición de la banda espectral
 ex:TESS_SpectralBand a om:SpectralResponse ;
@@ -66,4 +67,3 @@ ex:TESS_FoV a om:Angle;
         qudt:numericValue "15"^^xsd:float ;
         qudt:unit om:degree 
     ].
-

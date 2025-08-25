@@ -1,0 +1,69 @@
+@prefix ex: <http://example.org#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix qudt-unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix om: <http://www.ontology-of-units-of-measure.org/resource/om-2/> .
+
+ex:TESS a sosa:Sensor ;
+    sosa:observes ex:NightSkyBrightness;
+	dc:hasPart ex:TSL237;
+    #dc:hasPart ex:dichroic_filter; #hay un filtro que no se logró identificar
+    rdfs:label "Fotómetro TESS (Telemetric Environmental Sky Sensor)" ;
+    dc:creator ex:Stars4All ;
+    rdfs:seeAlso <https://guaix.fis.ucm.es/tess/>;
+    rdfs:seeAlso <https://www.observatorioremoto.com/TESS.pdf>
+    rdfs:seeAlso <https://www.observatorioremoto.com/tess/tess-info.pdf>
+    rdfs:comment "Sensor fotométrico desarrollado en el proyecto STARS4ALL para medir el brillo del cielo." ;
+    ex:hasSpectralBand ex:TESS_SpectralBand ;
+    ex:hasDefaultUnit om:magnitudePerSecond-AngleSquared ;
+    ex:hasFieldOfView ex:TESS_FoV .
+
+ex:TSL237 a sosa:Sensor;
+	rdfs:seeAlso <https://ams-osram.com/products/photodetectors/photodiodes/ams-tsl237-light-to-frequency>;
+	rdfs:comment "Convertidor de luz a frecuencia."@es .
+
+ex:TESS_W a sosa:Sensor ;
+    rdfs:label "TESS-W" ;
+    rdfs:comment "Modelo de TESS con conectividad GSM para transmisión remota." ;
+    dc:isPartOf ex:TESS .
+
+ex:TESS_P a sosa:Sensor ;
+    rdfs:label "TESS-P" ;
+    rdfs:comment "Modelo de TESS manual." ;
+    dc:isPartOf ex:TESS .
+
+ex:TAS a sosa:Sensor ;
+    sosa:observes ex:NightSkyBrightness;
+    rdfs:label "Tess Auto Scan. Fotómetro Tess de barrido"@es ;
+    rdfs:comment "TAS realiza barridos All Sky de 144 puntos" ;
+
+
+# Definición de la banda espectral
+ex:TESS_SpectralBand a om:SpectralResponse ;
+    rdfs:label "Banda espectral del TESS"@es ;
+    rdfs:comment "El TESS mide en el espectro cercano al rojo."@es ;
+    qudt:lowerBound [
+        a qudt:QuantityValue ;
+        qudt:numericValue "400.0"^^xsd:float ;
+        qudt:unit qudt-unit:NanoM
+    ] ;
+    qudt:upperBound [
+        a qudt:QuantityValue ;
+        qudt:numericValue "740.0"^^xsd:float ;
+        qudt:unit qudt-unit:NanoM
+    ] .
+
+# Apertura
+ex:TESS_FoV a om:Angle;
+    rdfs:comment "Campo de visión estándar del sensor TESS"@es ;
+    rdfs:seeAlso <https://www.observatorioremoto.com/tess/tess-info.pdf> ;
+    om:hasValue [
+        a qudt:QuantityValue ;
+        qudt:numericValue "15"^^xsd:float ;
+        qudt:unit om:degree 
+    ].
+

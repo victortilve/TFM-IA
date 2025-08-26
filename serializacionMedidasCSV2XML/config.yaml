@@ -1,0 +1,81 @@
+casos:
+  - csv_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RedMeteorológica_Pontevedra-Campolongo_diezminutal_01-09-2023_to_31-01-2025.csv"
+    utc: "true"
+    localidad: "Pontevedra"
+    lat: 42.425896
+    lon: -8.643984
+    nombre_sensor: "SQM_Campolongo"
+    zona_horaria: "Europe/Madrid"
+    output_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RDF/rdf_campolongo.xml"
+
+  - csv_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RedMeteorológica_Coruña-Torre de Hércules_diezminutal_01-09-2023_to_31-01-2025.csv"
+    utc: "true"
+    localidad: "Coruña"
+    lat: 43.382763
+    lon: -8.409202
+    nombre_sensor: "SQM_TorreHercules"
+    zona_horaria: "Europe/Madrid"
+    output_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RDF/rdf_torreHercules.xml"
+    
+  - csv_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RedMeteorológica_Porto de Vigo_diezminutal_01-09-2023_to_31-01-2025.csv"
+    utc: "true"
+    localidad: "Vigo"
+    lat: 42.241670
+    lon: -8.727587
+    nombre_sensor: "SQM_PortoVigo"
+    zona_horaria: "Europe/Madrid"
+    output_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RDF/rdf_portoVigo.xml"
+    
+  - csv_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RedMeteorológica_Illas Cíes_diezminutal_01-09-2023_to_31-01-2025.csv"
+    utc: "true"
+    localidad: "Cies"
+    lat: 42.213900
+    lon: -8.90600
+    nombre_sensor: "SQM_IllasCies"
+    zona_horaria: "Europe/Madrid"
+    output_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RDF/rdf_cies.xml"
+
+  - csv_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RedMeteorológica_Forcarei_diezminutal_01-09-2023_to_31-01-2025.csv"
+    utc: "true"
+    localidad: "Forcarei"
+    lat: 42.610943
+    lon: -8.370965
+    nombre_sensor: "SQM_Forcarei"
+    zona_horaria: "Europe/Madrid"
+    output_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RDF/rdf_forcarei.xml"
+    
+  - csv_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RedMeteorológica_O Cebreiro_diezminutal_01-09-2023_to_31-01-2025.csv"
+    utc: "true"
+    localidad: "Pedrafita"
+    lat: 42.707104
+    lon: -7.047078
+    nombre_sensor: "SQM_OCebreiro"
+    zona_horaria: "Europe/Madrid"
+    output_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RDF/rdf_pedrafita.xml"
+
+  - csv_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RedMeteorológica_Ancares_diezminutal_01-09-2023_to_31-01-2025.csv"
+    utc: "true"
+    localidad: "Ancares"
+    lat: 42.820778
+    lon: -6.922902
+    nombre_sensor: "SQM_Cervantes"
+    zona_horaria: "Europe/Madrid"
+    output_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RDF/rdf_cervantes.xml"
+    
+  - csv_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RedMeteorológica_Guísamo_diezminutal_01-09-2023_to_31-01-2025.csv"
+    utc: "true"
+    localidad: "Bergondo"
+    lat: 43.307995
+    lon: -8.276487
+    nombre_sensor: "SQM_Guisamo"
+    zona_horaria: "Europe/Madrid"
+    output_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RDF/rdf_guisamo.xml"
+
+  - csv_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RedMeteorológica_Penedo do Galo _diezminutal_01-09-2023_to_31-01-2025.csv"
+    utc: "true"
+    localidad: "Viveiro"
+    lat: 43.660763
+    lon: -7.562965
+    nombre_sensor: "SQM_PenedoDoGalo"
+    zona_horaria: "Europe/Madrid"
+    output_path: "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DatosMeteogalicia/RDF/rdf_penedoGaloViveiro.xml"

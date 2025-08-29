@@ -46,6 +46,14 @@ for centroide in config["centroides"]:
             if events[i] == 1 and events[i + 1] == 0:
                 salida = times[i].utc_datetime()
                 puesta = times[i + 1].utc_datetime()
+                
+                # === NUEVO: evita duplicidades por cruce de medianoche ===
+                # Asocia el intervalo al día de su "salida".
+                if salida.date() != single_date.date():
+                    continue
+                # =========================================================
+                        
+                        
                 centro = salida + (puesta - salida) / 2
                 centro_t = ts.utc(centro)
 

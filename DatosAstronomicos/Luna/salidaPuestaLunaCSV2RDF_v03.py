@@ -62,7 +62,7 @@ for _, row in df.iterrows():
     # --- Observación lunar ---
     g.add((obs_uri, RDF.type, SOSA.Observation))
     g.add((obs_uri, SOSA.resultTime, Literal(fecha, datatype=XSD.date)))
-    g.add((obs_uri, EX.validoPara, zona_uri))
+    g.add((obs_uri, SOSA.hasFeatureOfInterest, zona_uri))
     g.add((obs_uri, GEO.lat, Literal(lat, datatype=XSD.float)))
     g.add((obs_uri, GEO.long, Literal(lon, datatype=XSD.float)))
     g.add((obs_uri, SOSA.hasResult, resultado_uri))
@@ -86,7 +86,7 @@ for _, row in df.iterrows():
 
     # Intervalo de visibilidad con zona horaria explícita
     intervalo_uri = URIRef(f"{obs_uri}_intervalo")
-    g.add((obs_uri, EX.intervaloDeVisibilidad, intervalo_uri))
+    g.add((obs_uri, SOSA.phenomenonTime, intervalo_uri))
     g.add((intervalo_uri, RDF.type, TIME.ProperInterval))
     g.add((intervalo_uri, TIME.hasBeginning, Literal(salida + "+00:00", datatype=XSD.dateTime)))
     g.add((intervalo_uri, TIME.hasEnd, Literal(puesta + "+00:00", datatype=XSD.dateTime)))

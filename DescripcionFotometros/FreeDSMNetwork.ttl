@@ -1,5 +1,6 @@
 @prefix ex: <http://example.org#> .
 @prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sosa: <http://www.w3.org/ns/sosa/> .
 @prefix wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
@@ -25,7 +26,7 @@ ex:FreeDSM_UNEDPontevedra_PON_42.442671_-8.6277722 a ex:FreeDSM;
     dcterms:isPartOf ex:FreeDSM_Network_Gaia4sustainability ;
     rdfs:comment "Sensor de brillo del cielo instalado en el centro asociado de la UNED en Pontevedra (Monteporreiro), parte de la red Gaia4sustainability."@es ;
     geo:hasGeometry [
-        a geo:Point ;
+        a sf:Point ;
         geo:asWKT "POINT(-8.6277722 42.442671)"^^geo:wktLiteral ;
         wgs84:alt "63"^^xsd:decimal
     ] .
@@ -35,7 +36,7 @@ ex:FreeDSM_Pereiro_VIG_42.205304_-8.7435079 a ex:FreeDSM ;
     dcterms:isPartOf ex:FreeDSM_Network_Gaia4sustainability ;
     rdfs:comment "Sensor de brillo del cielo instalado en Pereiró, Vigo, parte de la red Gaia4sustainability."@es ;
     geo:hasGeometry [
-        a geo:Point ;
+        a sf:Point ;
         geo:asWKT "POINT(-8.3733263 42.6106673)"^^geo:wktLiteral ;
         wgs84:alt "32"^^xsd:decimal
     ] .

@@ -1,5 +1,6 @@
 @prefix ex: <http://example.org#> .
 @prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sosa: <http://www.w3.org/ns/sosa/> .
 @prefix wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
@@ -25,7 +26,7 @@ ex:TESS_PraiaPatos_NIG_42.149878_-8.826799 a ex:TESS-W ;
     dcterms:isPartOf ex:TESS_Network_Stars4All ;
     rdfs:comment "Sensor de brillo del cielo instalado en Praia de Patos (Nigrán), parte de la red Stars4All."@es ;
     geo:hasGeometry [
-        a geo:Point ;
+        a sf:Point ;
         geo:asWKT "POINT(-8.826799 42.149878_)"^^geo:wktLiteral ;
         wgs84:alt "0"^^xsd:decimal
     ] .
@@ -35,9 +36,8 @@ ex:TESS_ObservatorioForcarei_FOR_42.6106673,-8.3733263 a ex:TESS-W ;
     dcterms:isPartOf ex:TESS_Network_Stars4All ;
     rdfs:comment "Sensor de brillo del cielo instalado en el Observatorio AStron'omico de Forcarei, parte de la red Stars4All."@es ;
     geo:hasGeometry [
-        a geo:Point ;
+        a sf:Point ;
         geo:asWKT "POINT(-8.3733263 42.6106673)"^^geo:wktLiteral ;
         wgs84:alt "0"^^xsd:decimal
     ] .
-
 

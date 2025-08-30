@@ -15,6 +15,7 @@ QUDT = Namespace("http://qudt.org/schema/qudt/")
 UNIT = Namespace("http://qudt.org/vocab/unit/")
 TIME = Namespace("http://www.w3.org/2006/time#")
 GEO = Namespace("http://www.opengis.net/ont/geosparql#")
+SF = Namespace("http://www.opengis.net/ont/sf#")
 SCHEMA = Namespace("http://schema.org/")
 GEO_WKT = Namespace("http://www.opengis.net/ont/geosparql#wktLiteral")
 
@@ -26,6 +27,7 @@ g.bind("qudt", QUDT)
 g.bind("unit", UNIT)
 g.bind("time", TIME)
 g.bind("geo", GEO)
+g.bind("sf",SF)
 g.bind("schema", SCHEMA)
 
 # === Diccionario para evitar duplicados de zonas ===
@@ -50,21 +52,69 @@ for _, row in df.iterrows():
     obs_uri = EX[obs_id]
     resultado_uri = EX[f"Resultado_{obs_id}"]
 
-    # --- Zona geográfica ---
+    # --- Zona geográfica (GeoSPARQL: Feature -> hasGeometry -> Polygon + Centroid) ---
     if zona_uri not in zonas_vistas:
-        coords.append(coords[0])
-        wkt_coords = ", ".join(f"{x} {y}" for x, y in coords)
-        wkt_literal = f"POLYGON(({wkt_coords}))"
-        g.add((zona_uri, RDF.type, GEO.Polygon))
-        g.add((zona_uri, GEO.asWKT, Literal(wkt_literal, datatype=GEO_WKT)))
+        # Cierra el anillo si no lo está
+        if coords and coords[0] != coords[-1]:
+            coords = coords + [coords[0]]
+
+        # WKT con CRS (CRS84: lon lat en grados)
+        wkt_coords  = ", ".join(f"{x} {y}" for x, y in coords[:-1]) + f", {coords[0][0]} {coords[0][1]}"
+        crs_iri     = "<http://www.opengis.net/def/crs/OGC/1.3/CRS84>"
+        poly_wkt    = f"{crs_iri} POLYGON(({wkt_coords}))"
+
+        # URIs para geometrías
+        geom_poly_uri = URIRef(str(zona_uri) + "_geom")
+        geom_pt_uri   = URIRef(str(zona_uri) + "_centroid")
+
+        # Declara la Feature y vincula geometrías
+        g.add((zona_uri, RDF.type, GEO.Feature))
+        g.add((zona_uri, GEO.hasGeometry, geom_poly_uri))
+        g.add((zona_uri, GEO.hasGeometry, geom_pt_uri))
+
+        # Geometría polígono
+        g.add((geom_poly_uri, RDF.type, SF.Polygon))
+        g.add((geom_poly_uri, GEO.asWKT, Literal(poly_wkt, datatype=GEO.wktLiteral)))
+
+        # ---- Centroide (cálculo planar por fórmula del polígono; si área=0, media de vértices) ----
+        ring = coords  # cerrado
+        n = len(ring)
+        # usa n-1 segmentos (último es repetición del primero)
+        A = Cx = Cy = 0.0
+        for i in range(n - 1):
+            x0, y0 = ring[i]
+            x1, y1 = ring[i + 1]
+            cross = x0 * y1 - x1 * y0
+            A  += cross
+            Cx += (x0 + x1) * cross
+            Cy += (y0 + y1) * cross
+        A *= 0.5
+        if A != 0.0:
+            cx = Cx / (6.0 * A)
+            cy = Cy / (6.0 * A)
+        else:
+            # fallback: media simple de vértices (sin el duplicado final)
+            xs = [x for x, _ in ring[:-1]]
+            ys = [y for _, y in ring[:-1]]
+            cx = sum(xs) / len(xs)
+            cy = sum(ys) / len(ys)
+
+        pt_wkt = f"{crs_iri} POINT({cx} {cy})"
+
+        # Geometría punto (centroide)
+        g.add((geom_pt_uri, RDF.type, SF.Point))
+        g.add((geom_pt_uri, GEO.asWKT, Literal(pt_wkt, datatype=GEO.wktLiteral)))
+
         zonas_vistas[zona_uri] = True
+
+
 
     # --- Observación lunar ---
     g.add((obs_uri, RDF.type, SOSA.Observation))
     g.add((obs_uri, SOSA.resultTime, Literal(fecha, datatype=XSD.date)))
     g.add((obs_uri, SOSA.hasFeatureOfInterest, zona_uri))
-    g.add((obs_uri, GEO.lat, Literal(lat, datatype=XSD.float)))
-    g.add((obs_uri, GEO.long, Literal(lon, datatype=XSD.float)))
+    #g.add((obs_uri, GEO.lat, Literal(lat, datatype=XSD.float)))
+    #g.add((obs_uri, GEO.long, Literal(lon, datatype=XSD.float)))
     g.add((obs_uri, SOSA.hasResult, resultado_uri))
 
     # --- Resultado ---

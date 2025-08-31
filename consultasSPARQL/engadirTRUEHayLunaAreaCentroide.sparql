@@ -1,0 +1,32 @@
+PREFIX ex:   <http://example.org#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+INSERT {
+  GRAPH <http://example.org/grafoMedidas> {
+    ?obs ex:hayBrilloLuna true .
+  }
+}
+WHERE {
+  GRAPH <http://example.org/grafoMedidas> {
+    ?obs a sosa:Observation ;
+         sosa:madeBySensor ?sensor ;
+         sosa:resultTime   ?tObs .
+    BIND(xsd:dateTime(?tObs) AS ?obsTime)
+  }
+  GRAPH <http://example.org/grafoSensores> {
+    ?sensor ex:perteneceAZonaLunar ?zona .
+  }
+  GRAPH <http://example.org/grafoLuna> {
+    ?lunaObs a sosa:Observation ;
+             sosa:hasFeatureOfInterest ?zona ;
+             sosa:phenomenonTime ?int .
+    ?int time:hasBeginning ?tIni ;
+         time:hasEnd       ?tFin .
+    BIND(xsd:dateTime(?tIni) AS ?ini)
+    BIND(xsd:dateTime(?tFin) AS ?fin)
+  }
+  FILTER (?obsTime >= ?ini && ?obsTime <= ?fin)
+}
+

@@ -1,0 +1,20 @@
+PREFIX ex:   <http://example.org#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+
+INSERT {
+  GRAPH <http://example.org/grafoMedidas> { ?obs ex:hayBrilloLuna false . }
+}
+WHERE {
+  GRAPH <http://example.org/grafoMedidas> {
+    ?obs a sosa:Observation ;
+         sosa:madeBySensor ?sensor ;
+         sosa:resultTime ?t .
+  }
+  GRAPH <http://example.org/grafoSensores> {
+    ?sensor ex:perteneceAZonaLunar ?zona .
+  }
+  FILTER NOT EXISTS {
+    GRAPH <http://example.org/grafoMedidas> { ?obs ex:hayBrilloLuna true . }
+  }
+}
+

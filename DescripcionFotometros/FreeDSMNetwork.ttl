@@ -37,7 +37,7 @@ ex:FreeDSM_Pereiro_VIG_42.205304_-8.7435079 a ex:FreeDSM ;
     rdfs:comment "Sensor de brillo del cielo instalado en Pereiró, Vigo, parte de la red Gaia4sustainability."@es ;
     geo:hasGeometry [
         a sf:Point ;
-        geo:asWKT "POINT(-8.3733263 42.6106673)"^^geo:wktLiteral ;
+        geo:asWKT "POINT(-8.7435079 42.205304)"^^geo:wktLiteral ;
         wgs84:alt "32"^^xsd:decimal
     ] .
 

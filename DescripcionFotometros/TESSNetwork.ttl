@@ -31,7 +31,7 @@ ex:TESS_PraiaPatos_NIG_42.149878_-8.826799 a ex:TESS-W ;
         wgs84:alt "0"^^xsd:decimal
     ] .
 
-ex:TESS_ObservatorioForcarei_FOR_42.6106673,-8.3733263 a ex:TESS-W ;
+ex:TESS_ObservatorioForcarei_FOR_42.6106673_-8.3733263 a ex:TESS-W ;
     rdfs:label "TESS Obs. Astron. Forcarei (Forcarei)"@es ;
     dcterms:isPartOf ex:TESS_Network_Stars4All ;
     rdfs:comment "Sensor de brillo del cielo instalado en el Observatorio AStron'omico de Forcarei, parte de la red Stars4All."@es ;

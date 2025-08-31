@@ -15,8 +15,8 @@ ex:TESS a sosa:Sensor ;
     rdfs:label "Fotómetro TESS (Telemetric Environmental Sky Sensor)"@es ;
     dc:creator ex:Stars4All ;
     rdfs:seeAlso <https://guaix.fis.ucm.es/tess/>;
-    rdfs:seeAlso <https://www.observatorioremoto.com/TESS.pdf>
-    rdfs:seeAlso <https://www.observatorioremoto.com/tess/tess-info.pdf>
+    rdfs:seeAlso <https://www.observatorioremoto.com/TESS.pdf> ;
+    rdfs:seeAlso <https://www.observatorioremoto.com/tess/tess-info.pdf> ;
     rdfs:comment "Sensor fotométrico desarrollado en el proyecto STARS4ALL para medir el brillo del cielo."@es ;
     ex:hasSpectralBand ex:TESS_SpectralBand ;
     ex:hasDefaultUnit om:magnitudePerSecond-AngleSquared ;

@@ -16,7 +16,7 @@ ex:FreeDSM a sosa:Sensor;
     rdfs:label "Fotómetro Free Dark Sky Meter (FreeDSM)."@es ;
     dc:creator ex:Gaia4sustainability ;
     rdfs:seeAlso <https://gitlab.citic.udc.es/lia2-publico/g4s/-/wikis/home>;
-    rdfs:seeAlso <http://hdl.handle.net/2183/32824>
+    rdfs:seeAlso <http://hdl.handle.net/2183/32824> ;
     rdfs:comment "Fotómetro de bajo coste con instrucciones para construirlo desde cero."@es ;
     ex:hasSpectralBand ex:FreeDSM_SpectralBand ;
     ex:hasDefaultUnit om:magnitudePerSecond-AngleSquared ;

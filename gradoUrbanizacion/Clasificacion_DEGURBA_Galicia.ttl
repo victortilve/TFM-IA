@@ -1,0 +1,122 @@
+@prefix ex: <http://example.org#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sdmx-attribute: <http://purl.org/linked-data/sdmx/2009/attribute#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix wd: <http://www.wikidata.org/entity/> .           # entidades (ej. wd:Q11595)
+@prefix wdt: <http://www.wikidata.org/prop/direct/> .     # propiedades directas (ej. wdt:P1082)
+@prefix wikibase: <http://wikiba.se/ontology#> .		  # ontología interna
+
+ex:GradoUrbanizacionDEGURBA a skos:ConceptScheme ;
+    skos:prefLabel "Clasificación del grado de urbanización"@es .
+
+ex:ZonaIntermedia a skos:Concept ;
+    qb:measureType [ a qb:MeasureProperty ;
+            rdfs:label "Densidad de población"@es ;
+            sdmx-attribute:unitMeasure <http://qudt.org/vocab/unit/PeoplePerSquareKilometre> ;
+            schema:minValue "300.0"^^xsd:float ] ;
+    schema:population [ a schema:QuantitativeValue ;
+            schema:minValue 5000 ;
+            schema:unitText "personas"@es ] ;
+    skos:definition "Áreas con una densidad de al menos 300 hab/km² y una población total superior a 5.000 habitantes."@es ;
+    skos:inScheme ex:GradoUrbanizacionDEGURBA ;
+    skos:prefLabel "Ciudad pequeña"@es .
+
+ex:ZonaUrbana a skos:Concept ;
+    qb:measureType [ a qb:MeasureProperty ;
+            rdfs:label "Densidad de población"@es ;
+            sdmx-attribute:unitMeasure <http://qudt.org/vocab/unit/PeoplePerSquareKilometre> ;
+            schema:minValue "1500.0"^^xsd:float ] ;
+    ex:population [ a schema:QuantitativeValue ;
+            schema:minValue 50000 ;
+            schema:unitText "personas"@es ] ;
+    skos:definition "Concentraciones urbanas con al menos 50.000 habitantes y una densidad mínima de 1.500 hab/km²."@es ;
+    skos:inScheme ex:GradoUrbanizacionDEGURBA ;
+    skos:prefLabel "Zona urbana"@es .
+
+ex:ZonaRural a skos:Concept ;
+    qb:measureType [ a qb:MeasureProperty ;
+            rdfs:label "Densidad de población"@es ;
+            sdmx-attribute:unitMeasure <http://qudt.org/vocab/unit/PeoplePerSquareKilometre> ;
+            schema:maxValue "300.0"^^xsd:float ] ;
+    schema:population [ a schema:QuantitativeValue ;
+            schema:maxValue 5000 ;
+            schema:unitText "personas"@es ] ;
+    skos:definition "Áreas donde más del 50% de la población vive en celdas con menos de 300 hab/km²."@es ;
+    skos:inScheme ex:GradoUrbanizacionDEGURBA ;
+    skos:prefLabel "Zona rural"@es .
+
+wd:Q8757 a wikibase:Item ;
+    rdfs:label "A Coruña"@es ;
+    ex:GradoUrbanizacionDEGURBA ex:ZonaUrbana ;
+    wdt:P1082 "249261"^^xsd:integer ;
+    geo:lat "43.3623"^^xsd:float ;
+    geo:long "-8.4115"^^xsd:float .
+
+wd:Q385667 a wikibase:Item ;
+    rdfs:label "Forcarei"@es ;
+    ex:GradoUrbanizacionDEGURBA ex:ZonaRural ;
+    wdt:P1082 "3127"^^xsd:integer ;
+    geo:lat "42.5301"^^xsd:float ;
+    geo:long "-8.3652"^^xsd:float .
+
+wd:Q1658753 a wikibase:Item ;
+    rdfs:label "Illas Cíes"@es ;
+    ex:GradoUrbanizacionDEGURBA ex:ZonaRural ;
+    wdt:P1082 "0"^^xsd:integer ;
+    geo:lat "42.22"^^xsd:float ;
+    geo:long "-8.9"^^xsd:float .
+
+wd:Q967734 a wikibase:Item;
+    rdfs:label "Pedrafita do Cebreiro"@es ;
+    ex:GradoUrbanizacionDEGURBA ex:ZonaRural ;
+    wdt:P1082 "898"^^xsd:integer ;
+    geo:lat "42.7254"^^xsd:float ;
+    geo:long "-7.0246"^^xsd:float .
+
+wd:Q12411 a wikibase:Item ;
+    rdfs:label "Pontevedra"@es ;
+    ex:GradoUrbanizacionDEGURBA ex:ZonaUrbana ;
+    wdt:P1082 "83077"^^xsd:integer ;
+    geo:lat "42.4333"^^xsd:float ;
+    geo:long "-8.6333"^^xsd:float .
+
+wd:Q8745 a wikibase:Item ;
+    rdfs:label "Vigo"@es ;
+    ex:GradoUrbanizacionDEGURBA ex:ZonaUrbana ;
+	wdt:P1082 "293977"^^xsd:integer ;
+    geo:lat "42.2406"^^xsd:float ;
+    geo:long "-8.7207"^^xsd:float .
+    
+wd:Q1603003 a wikibase:Item ;
+    rdfs:label "Cervantes-Ancares"@es ;
+    ex:GradoUrbanizacionDEGURBA ex:ZonaRural ;
+    wdt:P1082 "1187"^^xsd:integer ;
+    geo:lat "42.8677"^^xsd:float ;
+    geo:long "-7.07305"^^xsd:float .
+
+wd:Q644018 a wikibase:Item ;
+    rdfs:label "Bergondo"@es ;
+    ex:GradoUrbanizacionDEGURBA ex:ZonaIntermedia ;
+    wdt:P1082 "6986"^^xsd:integer ;
+    geo:lat "42.8677"^^xsd:float ;
+    geo:long "-7.07305"^^xsd:float .
+
+wd:Q641221 a wikibase:Item ;
+    rdfs:label "Viveiro"@es ;
+    ex:GradoUrbanizacionDEGURBA ex:ZonaIntermedia ;
+    wdt:P1082 "15217"^^xsd:integer ; #poblacion
+    wdt:P2046 "109.3"^^xsd:float ; #area
+    geo:lat "43.648056"^^xsd:float ;
+    geo:long "-7.59"^^xsd:float .
+
+wd: a wikibase:Item;
+    rdfs:label "Nigrán"@es ;
+    ex:GradoUrbanizacionDEGURBA ex:ZonaIntermedia ;
+    wdt:P1082 "18005"^^xsd:integer ; #poblacion
+    wdt:P2046 "34.9"^^xsd:float ; #area
+    geo:lat "42.1416"^^xsd:float ;
+    geo:long "-8.8066"^^xsd:float.

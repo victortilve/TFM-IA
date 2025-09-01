@@ -1,0 +1,35 @@
+@prefix ex: <http://example.org#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+
+ex:EsquemaEstaciones a skos:ConceptScheme ;
+    rdfs:label "Estaciones del año"@es ;
+    rdfs:label "Seasons of the year"@en ;
+    skos:prefLabel "Estaciones astronómicas"@es ;
+    skos:prefLabel "Astronomical seasons"@en .
+
+ex:Primavera a skos:Concept ;
+    skos:exactMatch wd:Q1312 ;
+    skos:prefLabel "Primavera"@es ;
+    skos:prefLabel "Spring"@en ;
+    skos:inScheme ex:EsquemaEstaciones .
+
+ex:Verano a skos:Concept ;
+    skos:exactMatch wd:Q1313 ;
+    skos:prefLabel "Verano"@es ;
+    skos:prefLabel "Summer"@en ;
+    skos:inScheme ex:EsquemaEstaciones .
+
+ex:Otono a skos:Concept ;
+    skos:exactMatch wd:Q1314;
+    skos:prefLabel "Otoño"@es ;
+    skos:prefLabel "Autumn"@en ;
+    skos:altLabel "Fall"@en ;  # Variante americana
+    skos:inScheme ex:EsquemaEstaciones .
+
+ex:Invierno a skos:Concept ;
+    skos:exactMatch wd:Q1311 ; #Invierno
+    skos:prefLabel "Invierno"@es ;
+    skos:prefLabel "Winter"@en ;
+    skos:inScheme ex:EsquemaEstaciones .

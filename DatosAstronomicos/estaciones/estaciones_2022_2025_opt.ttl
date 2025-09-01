@@ -1,0 +1,187 @@
+@prefix ex: <http://example.org#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+ex:Invierno2022 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Invierno 2022"@es ;
+    dcterms:isPartOf ex:Invierno ; 
+    schema:location wd:Q29 ; #Espana
+    time:hasBeginning ex:SolsticioDiciembre2022 ;
+    time:hasEnd ex:EquinoccioMarzo2023 .
+
+ex:Invierno2023 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Invierno 2023"@es ;
+    dcterms:isPartOf ex:Invierno ;
+    schema:location wd:Q29 ;
+    time:hasBeginning ex:SolsticioDiciembre2023 ;
+    time:hasEnd ex:EquinoccioMarzo2024 .
+
+ex:Invierno2024 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Invierno 2024"@es ;
+    dcterms:isPartOf ex:Invierno ;
+    schema:location wd:Q29 ;
+    time:hasBeginning ex:SolsticioDiciembre2024 ;
+    time:hasEnd ex:EquinoccioMarzo2025 .
+
+ex:Invierno2025 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Invierno 2025"@es ;
+    dcterms:isPartOf ex:Invierno ;
+    schema:location wd:Q29 ;
+    time:hasBeginning ex:SolsticioDiciembre2025 ;
+    time:hasEnd ex:EquinoccioMarzo2026 .
+
+ex:Otono2022 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Otono 2022"@es ;
+    dcterms:isPartOf ex:Otono ;
+    schema:location wd:Q29 ;
+    time:hasBeginning ex:EquinoccioSeptiembre2022 ;
+    time:hasEnd ex:SolsticioDiciembre2022 .
+
+ex:Otono2023 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Otono 2023"@es ;
+    dcterms:isPartOf ex:Otono ;
+    schema:location wd:Q29 ;
+    time:hasBeginning ex:EquinoccioSeptiembre2023 ;
+    time:hasEnd ex:SolsticioDiciembre2023 .
+
+ex:Otono2024 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Otono 2024"@es ;
+    dcterms:isPartOf ex:Otono ;
+    schema:location wd:Q29 ;
+    time:hasBeginning ex:EquinoccioSeptiembre2024 ;
+    time:hasEnd ex:SolsticioDiciembre2024 .
+
+ex:Otono2025 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Otono 2025"@es ;
+    dcterms:isPartOf ex:Otono ;
+    schema:location wd:Q29 ;
+    time:hasBeginning ex:EquinoccioSeptiembre2025 ;
+    time:hasEnd ex:SolsticioDiciembre2025 .
+
+ex:Primavera2022 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Primavera 2022"@es ;
+    dcterms:isPartOf ex:Primavera ;
+    schema:location wd:Q29 ;
+    time:hasBeginning ex:EquinoccioMarzo2022 ;
+    time:hasEnd ex:SolsticioJunio2022 .
+
+ex:Primavera2023 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Primavera 2023"@es ;
+    dcterms:isPartOf ex:Primavera ;
+    schema:location wd:Q29 ;
+    time:hasBeginning ex:EquinoccioMarzo2023 ;
+    time:hasEnd ex:SolsticioJunio2023 .
+
+ex:Primavera2024 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Primavera 2024"@es ;
+    dcterms:isPartOf ex:Primavera ;
+    schema:location wd:Q29 ;
+    time:hasBeginning ex:EquinoccioMarzo2024 ;
+    time:hasEnd ex:SolsticioJunio2024 .
+
+ex:Primavera2025 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Primavera 2025"@es ;
+    dcterms:isPartOf ex:Primavera ;
+    schema:location wd:Q29 ;
+    time:hasBeginning ex:EquinoccioMarzo2025 ;
+    time:hasEnd ex:SolsticioJunio2025 .
+
+ex:Verano2022 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Verano 2022"@es ;
+    dcterms:isPartOf ex:Verano ;
+    schema:location wd:Q29 ;
+    time:hasBeginning ex:SolsticioJunio2022 ;
+    time:hasEnd ex:EquinoccioSeptiembre2022 .
+
+ex:Verano2023 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Verano 2023"@es ;
+    dcterms:isPartOf ex:Verano ;
+    schema:location wd:Q29 ;
+    time:hasBeginning ex:SolsticioJunio2023 ;
+    time:hasEnd ex:EquinoccioSeptiembre2023 .
+
+ex:Verano2024 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Verano 2024"@es ;
+    dcterms:isPartOf ex:Verano ;
+    schema:location wd:Q29 ;
+    time:hasBeginning ex:SolsticioJunio2024 ;
+    time:hasEnd ex:EquinoccioSeptiembre2024 .
+
+ex:Verano2025 a schema:Event,
+        time:ProperInterval ;
+    rdfs:label "Verano 2025"@es ;
+    dcterms:isPartOf ex:Verano ;
+    schema:location wd:Q29 ;
+    time:hasBeginning ex:SolsticioJunio2025 ;
+    time:hasEnd ex:EquinoccioSeptiembre2025 .
+
+ex:EquinoccioMarzo2022 a time:Instant ;
+    time:inXSDDateTime "2022-03-20T15:33:00+00:00"^^xsd:dateTime .
+
+ex:EquinoccioMarzo2026 a time:Instant ;
+    time:inXSDDateTime "2026-03-20T03:45:00+00:00"^^xsd:dateTime .
+
+ex:EquinoccioMarzo2023 a time:Instant ;
+    time:inXSDDateTime "2023-03-20T20:24:00+00:00"^^xsd:dateTime .
+
+ex:EquinoccioMarzo2024 a time:Instant ;
+    time:inXSDDateTime "2024-03-20T03:06:00+00:00"^^xsd:dateTime .
+
+ex:EquinoccioMarzo2025 a time:Instant ;
+    time:inXSDDateTime "2025-03-20T09:01:00+00:00"^^xsd:dateTime .
+
+ex:EquinoccioSeptiembre2022 a time:Instant ;
+    time:inXSDDateTime "2022-09-23T01:03:00+00:00"^^xsd:dateTime .
+
+ex:EquinoccioSeptiembre2023 a time:Instant ;
+    time:inXSDDateTime "2023-09-23T06:50:00+00:00"^^xsd:dateTime .
+
+ex:EquinoccioSeptiembre2024 a time:Instant ;
+    time:inXSDDateTime "2024-09-22T12:44:00+00:00"^^xsd:dateTime .
+
+ex:EquinoccioSeptiembre2025 a time:Instant ;
+    time:inXSDDateTime "2025-09-22T18:19:00+00:00"^^xsd:dateTime .
+
+ex:SolsticioDiciembre2022 a time:Instant ;
+    time:inXSDDateTime "2022-12-21T21:48:00+00:00"^^xsd:dateTime .
+
+ex:SolsticioDiciembre2023 a time:Instant ;
+    time:inXSDDateTime "2023-12-22T03:27:00+00:00"^^xsd:dateTime .
+
+ex:SolsticioDiciembre2024 a time:Instant ;
+    time:inXSDDateTime "2024-12-21T09:20:00+00:00"^^xsd:dateTime .
+
+ex:SolsticioDiciembre2025 a time:Instant ;
+    time:inXSDDateTime "2025-12-21T16:03:00+00:00"^^xsd:dateTime .
+
+ex:SolsticioJunio2022 a time:Instant ;
+    time:inXSDDateTime "2022-06-21T09:14:00+00:00"^^xsd:dateTime .
+
+ex:SolsticioJunio2023 a time:Instant ;
+    time:inXSDDateTime "2023-06-21T14:57:00+00:00"^^xsd:dateTime .
+
+ex:SolsticioJunio2024 a time:Instant ;
+    time:inXSDDateTime "2024-06-20T20:51:00+00:00"^^xsd:dateTime .
+
+ex:SolsticioJunio2025 a time:Instant ;
+    time:inXSDDateTime "2025-06-21T02:42:00+00:00"^^xsd:dateTime .
+

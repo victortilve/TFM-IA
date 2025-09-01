@@ -1,0 +1,325 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix wd: <http://www.wikidata.org/entity/> .           # entidades (ej. wd:Q11595)
+
+<http://example.org#NadalVigo20242025> a event:Event ;
+    dcterms:publisher "Concello de Vigo" ;
+    dcterms:subject "Iluminación navideña" ;
+    dcterms:title "Navidad en Vigo 2024–2025"@es ;
+    dul:hasLocation wd:Q8745 ;
+    dul:hasPart <http://example.org#EncendidoNavidadVigo2024_2024-11-16>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-11-17>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-11-18>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-11-19>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-11-20>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-11-21>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-11-22>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-11-23>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-11-24>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-11-25>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-11-26>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-11-27>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-11-28>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-11-29>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-11-30>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-01>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-02>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-03>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-04>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-05>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-06>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-07>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-08>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-09>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-10>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-11>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-12>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-13>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-14>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-15>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-16>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-17>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-18>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-19>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-20>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-21>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-22>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-23>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-24>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-25>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-26>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-27>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-28>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-29>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-30>,
+        <http://example.org#EncendidoNavidadVigo2024_2024-12-31>,
+        <http://example.org#EncendidoNavidadVigo2024_2025-01-01>,
+        <http://example.org#EncendidoNavidadVigo2024_2025-01-02>,
+        <http://example.org#EncendidoNavidadVigo2024_2025-01-03>,
+        <http://example.org#EncendidoNavidadVigo2024_2025-01-04>,
+        <http://example.org#EncendidoNavidadVigo2024_2025-01-05>,
+        <http://example.org#EncendidoNavidadVigo2024_2025-01-06>,
+        <http://example.org#EncendidoNavidadVigo2024_2025-01-07>,
+        <http://example.org#EncendidoNavidadVigo2024_2025-01-08>,
+        <http://example.org#EncendidoNavidadVigo2024_2025-01-09>,
+        <http://example.org#EncendidoNavidadVigo2024_2025-01-10>,
+        <http://example.org#EncendidoNavidadVigo2024_2025-01-11>,
+        <http://example.org#EncendidoNavidadVigo2024_2025-01-12> ;
+    geo:asWKT "POINT(-8.727501 42.240278)"^^geo:wktLiteral ;
+    time:hasBeginning "2024-11-16"^^xsd:date ;
+    time:hasEnd "2025-01-12"^^xsd:date ;
+    foaf:homepage <https://www.vigo.org> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-11-16> a event:Event ;
+    dcterms:date "2024-11-16"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-11-17> a event:Event ;
+    dcterms:date "2024-11-17"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-11-18> a event:Event ;
+    dcterms:date "2024-11-18"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-11-19> a event:Event ;
+    dcterms:date "2024-11-19"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-11-20> a event:Event ;
+    dcterms:date "2024-11-20"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-11-21> a event:Event ;
+    dcterms:date "2024-11-21"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-11-22> a event:Event ;
+    dcterms:date "2024-11-22"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-11-23> a event:Event ;
+    dcterms:date "2024-11-23"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-11-24> a event:Event ;
+    dcterms:date "2024-11-24"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-11-25> a event:Event ;
+    dcterms:date "2024-11-25"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-11-26> a event:Event ;
+    dcterms:date "2024-11-26"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-11-27> a event:Event ;
+    dcterms:date "2024-11-27"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-11-28> a event:Event ;
+    dcterms:date "2024-11-28"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-11-29> a event:Event ;
+    dcterms:date "2024-11-29"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-11-30> a event:Event ;
+    dcterms:date "2024-11-30"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-01> a event:Event ;
+    dcterms:date "2024-12-01"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-02> a event:Event ;
+    dcterms:date "2024-12-02"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-03> a event:Event ;
+    dcterms:date "2024-12-03"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-04> a event:Event ;
+    dcterms:date "2024-12-04"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-05> a event:Event ;
+    dcterms:date "2024-12-05"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-06> a event:Event ;
+    dcterms:date "2024-12-06"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-07> a event:Event ;
+    dcterms:date "2024-12-07"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-08> a event:Event ;
+    dcterms:date "2024-12-08"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-09> a event:Event ;
+    dcterms:date "2024-12-09"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-10> a event:Event ;
+    dcterms:date "2024-12-10"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-11> a event:Event ;
+    dcterms:date "2024-12-11"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-12> a event:Event ;
+    dcterms:date "2024-12-12"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-13> a event:Event ;
+    dcterms:date "2024-12-13"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-14> a event:Event ;
+    dcterms:date "2024-12-14"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-15> a event:Event ;
+    dcterms:date "2024-12-15"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-16> a event:Event ;
+    dcterms:date "2024-12-16"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-17> a event:Event ;
+    dcterms:date "2024-12-17"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-18> a event:Event ;
+    dcterms:date "2024-12-18"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-19> a event:Event ;
+    dcterms:date "2024-12-19"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-20> a event:Event ;
+    dcterms:date "2024-12-20"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-21> a event:Event ;
+    dcterms:date "2024-12-21"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-22> a event:Event ;
+    dcterms:date "2024-12-22"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-23> a event:Event ;
+    dcterms:date "2024-12-23"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_festivo> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-24> a event:Event ;
+    dcterms:date "2024-12-24"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_festivo> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-25> a event:Event ;
+    dcterms:date "2024-12-25"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_festivo> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-26> a event:Event ;
+    dcterms:date "2024-12-26"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-27> a event:Event ;
+    dcterms:date "2024-12-27"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-28> a event:Event ;
+    dcterms:date "2024-12-28"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-29> a event:Event ;
+    dcterms:date "2024-12-29"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-30> a event:Event ;
+    dcterms:date "2024-12-30"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_festivo> .
+
+<http://example.org#EncendidoNavidadVigo2024_2024-12-31> a event:Event ;
+    dcterms:date "2024-12-31"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_festivo> .
+
+<http://example.org#EncendidoNavidadVigo2024_2025-01-01> a event:Event ;
+    dcterms:date "2025-01-01"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_festivo> .
+
+<http://example.org#EncendidoNavidadVigo2024_2025-01-02> a event:Event ;
+    dcterms:date "2025-01-02"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2025-01-03> a event:Event ;
+    dcterms:date "2025-01-03"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2025-01-04> a event:Event ;
+    dcterms:date "2025-01-04"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2025-01-05> a event:Event ;
+    dcterms:date "2025-01-05"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_festivo> .
+
+<http://example.org#EncendidoNavidadVigo2024_2025-01-06> a event:Event ;
+    dcterms:date "2025-01-06"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_festivo> .
+
+<http://example.org#EncendidoNavidadVigo2024_2025-01-07> a event:Event ;
+    dcterms:date "2025-01-07"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2025-01-08> a event:Event ;
+    dcterms:date "2025-01-08"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2025-01-09> a event:Event ;
+    dcterms:date "2025-01-09"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2025-01-10> a event:Event ;
+    dcterms:date "2025-01-10"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2025-01-11> a event:Event ;
+    dcterms:date "2025-01-11"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_finsemana> .
+
+<http://example.org#EncendidoNavidadVigo2024_2025-01-12> a event:Event ;
+    dcterms:date "2025-01-12"^^xsd:date ;
+    time:hasTime <http://example.org#IntervaloNadalVigo2024_semana> .
+
+<http://example.org#IntervaloNadalVigo2024_festivo> a time:Interval ;
+    rdfs:label "Intervalo festivo"@es ;
+    time:hasBeginning "17:00:00+00:00"^^xsd:time ;
+    time:hasEnd "07:00:00+00:00"^^xsd:time .
+
+<http://example.org#IntervaloNadalVigo2024_finsemana> a time:Interval ;
+    rdfs:label "Intervalo finsemana"@es ;
+    time:hasBeginning "17:00:00+00:00"^^xsd:time ;
+    time:hasEnd "01:00:00+00:00"^^xsd:time .
+
+<http://example.org#IntervaloNadalVigo2024_semana> a time:Interval ;
+    rdfs:label "Intervalo semana"@es ;
+    time:hasBeginning "17:00:00+00:00"^^xsd:time ;
+    time:hasEnd "23:00:00+00:00"^^xsd:time .
+

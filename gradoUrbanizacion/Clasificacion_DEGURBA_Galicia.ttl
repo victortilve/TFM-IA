@@ -113,7 +113,7 @@ wd:Q641221 a wikibase:Item ;
     geo:lat "43.648056"^^xsd:float ;
     geo:long "-7.59"^^xsd:float .
 
-wd: a wikibase:Item;
+wd:Q1617562 a wikibase:Item;
     rdfs:label "Nigrán"@es ;
     ex:GradoUrbanizacionDEGURBA ex:ZonaIntermedia ;
     wdt:P1082 "18005"^^xsd:integer ; #poblacion

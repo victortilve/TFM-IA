@@ -1,0 +1,166 @@
+@base <localhost://> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.org#> .
+@prefix STATO: <http://purl.obolibrary.org/obo/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.org#IQR_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000164 ;
+    rdf:value 0.579750000000001 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#IQR_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000164 ;
+    rdf:value 0.458000000000002 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#Q1_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000167 ;
+    rdf:value 21.35825 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#Q1_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000167 ;
+    rdf:value 16.151 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#Q3_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000170 ;
+    rdf:value 21.938 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#Q3_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000170 ;
+    rdf:value 16.609 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#average_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000573 ;
+    rdf:value 21.3083332207968 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#average_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000573 ;
+    rdf:value 16.3481641375039 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#boxplot_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>
+    dcterms:hasPart <http://example.org#IQR_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>, <http://example.org#Q1_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>, <http://example.org#Q3_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>, <http://example.org#max_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>, <http://example.org#median_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>, <http://example.org#min_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    dcterms:subject <http://example.org#SQM_Cervantes_ANC_42.820778_-6.922902> ;
+    a STATO:STATO_0000243 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z ;
+    sosa:resultTime ex:calc_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#boxplot_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>
+    dcterms:hasPart <http://example.org#IQR_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>, <http://example.org#Q1_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>, <http://example.org#Q3_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>, <http://example.org#max_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>, <http://example.org#median_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>, <http://example.org#min_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    dcterms:subject <http://example.org#SQM_TorreHercules_COR_43.382763_-8.409202> ;
+    a STATO:STATO_0000243 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z ;
+    sosa:resultTime ex:calc_Trim12024_20240101T000000Z_20240331T235959Z .
+
+ex:calc_Trim12024_20240101T000000Z_20240331T235959Z
+    a time:Instant ;
+    time:inXSDDateTime "2025-09-02T23:25:47Z"^^<xsd:dateTime> .
+
+<http://example.org#dataset_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>
+    a sosa:ObservationCollection ;
+    sosa:madeBySensor <http://example.org#SQM_Cervantes_ANC_42.820778_-6.922902> ;
+    sosa:observedProperty ex:NightSkyBrightness ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#dataset_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>
+    a sosa:ObservationCollection ;
+    sosa:madeBySensor <http://example.org#SQM_TorreHercules_COR_43.382763_-8.409202> ;
+    sosa:observedProperty ex:NightSkyBrightness ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z
+    a time:Interval ;
+    time:hasBeginning ex:tbegin_Trim12024_20240101T000000Z_20240331T235959Z ;
+    time:hasEnd ex:tend_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#max_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000151 ;
+    rdf:value 22.38 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#max_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000151 ;
+    rdf:value 17.621 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#median_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000574 ;
+    rdf:value 21.672 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#median_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000574 ;
+    rdf:value 16.367 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#min_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000150 ;
+    rdf:value 14.111 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#min_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000150 ;
+    rdf:value 14.089 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#mode_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000033 ;
+    rdf:value 21.8976846064814 ;
+    rdfs:comment "moda calculada para una variable continua con el método de densidad" ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#mode_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000033 ;
+    rdf:value 16.2937019622459 ;
+    rdfs:comment "moda calculada para una variable continua con el método de densidad" ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#stddev_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000237 ;
+    rdf:value 1.32983919392501 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_Cervantes_ANC_42.820778_-6.922902_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+<http://example.org#stddev_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z>
+    a STATO:STATO_0000237 ;
+    rdf:value 0.391254155017952 ;
+    prov:wasDerivedFrom <http://example.org#dataset_SQM_TorreHercules_COR_43.382763_-8.409202_Trim12024_20240101T000000Z_20240331T235959Z> ;
+    sosa:phenomenonTime ex:intervalo_Trim12024_20240101T000000Z_20240331T235959Z .
+
+ex:tbegin_Trim12024_20240101T000000Z_20240331T235959Z
+    a time:Instant ;
+    time:inXSDDateTime "2024-01-01T00:00:00Z"^^<xsd:dateTime> .
+
+ex:tend_Trim12024_20240101T000000Z_20240331T235959Z
+    a time:Instant ;
+    time:inXSDDateTime "2024-03-31T23:59:59Z"^^<xsd:dateTime> .
+

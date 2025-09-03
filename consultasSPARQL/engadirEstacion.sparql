@@ -1,0 +1,30 @@
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ex: <http://example.org#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+INSERT {
+    GRAPH <http://example.org/grafoMedidas> {
+        ?obs ex:perteneceAEstacion ?generica .
+    }
+}
+WHERE {
+    GRAPH <http://example.org/grafoMedidas> {
+  		?obs a sosa:Observation ;
+       		sosa:resultTime ?fecha .
+    }
+    GRAPH <http://example.org/grafoEstaciones>{
+        ?estacion a time:ProperInterval ;
+            time:hasBeginning ?inicio ;
+            time:hasEnd ?fin ;
+            dcterms:isPartOf ?generica .
+    }
+  
+
+  ?inicio time:inXSDDateTime ?fecha_inicio .
+  ?fin    time:inXSDDateTime ?fecha_fin .
+
+  FILTER (?fecha >= ?fecha_inicio && ?fecha <= ?fecha_fin)
+}

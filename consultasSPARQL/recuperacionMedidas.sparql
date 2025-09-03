@@ -10,7 +10,9 @@ WHERE {
        sosa:madeBySensor ?sensor ;
        ex:esNocheAstronomica ?noche ;
        ex:hayBrilloLuna ?luna ;
+       sosa:resultTime ?t ;
        ?p ?o .
 
-  FILTER (str(?noche) = "true" && str(?luna) = "False")
+  FILTER (str(?noche) = "true" && str(?luna) = "False" && ?t >= "2023-09-01T00:00:00+00:00"^^xsd:dateTime && ?t <  "2025-01-31T23:59:59+00:00"^^xsd:dateTime)
+
 }

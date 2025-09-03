@@ -1,0 +1,16 @@
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX ex: <http://example.org#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+CONSTRUCT {
+  ?obs ?p ?o .
+}
+WHERE {
+  ?obs a sosa:Observation ;
+       sosa:madeBySensor ?sensor ;
+       ex:esNocheAstronomica ?noche ;
+       ex:hayBrilloLuna ?luna ;
+       ?p ?o .
+
+  FILTER (str(?noche) = "true" && str(?luna) = "False")
+}

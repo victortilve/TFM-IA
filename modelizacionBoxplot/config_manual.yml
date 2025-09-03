@@ -1,0 +1,20 @@
+config:
+  base_uri: http://example.org#
+  outfile: grafo_estadistica_ejemplo1.ttl
+  mode_method: density
+  hist_breaks: 30.0
+  digits: 6.0
+  sensor_col: sensor
+  value_col: valor
+  time_col: fecha
+entries:
+- sensor_id: http://example.org#SQM_Cervantes_ANC_42.820778_-6.922902
+  sensor_label: SQM_Cervantes
+  period_start: 2024-01-01 00:00:00
+  period_end: 2024-03-31 23:59:59
+  period_label: Trim12024
+- sensor_id: http://example.org#SQM_Forcarei_FOR_42.610943_-8.370965
+  sensor_label: SQM_Forcarei
+  period_start: 2024-01-01 00:00:00
+  period_end: 2024-03-31 23:59:59
+  period_label: Trim12024

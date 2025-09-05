@@ -1,0 +1,536 @@
+---
+title: "Clasificación automática de medidas de brillo de cielo nocturno - TFM en IA"
+author: "Víctor Tilve"
+date: "2025-09-05"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Primer análisis de los datos.
+En primer lugar se indica la carpeta donde se encuentran los archivo en formatos Turtle y RDF/XML para cargarlos. Muchos ya fueron tratados mediante consultal SPARQL con la herramienta GraphDB para llegar aquí con toda la información necesaria y requerida. Después se define la consulta SPARQL cuyo resultado será transformado en un dataframe de R.
+
+```{r read inicio}
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(rdflib)
+
+rdf_data <- "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/clustering"
+
+#Función para procesar un solo archivo RDF/XML
+#Mucho ojo con los prefijos porque en ex el final / o # debe coincidir con el grafo
+procesar_rdf <- function(file_path) {
+  rdf <- rdf_parse(file_path, format = "rdfxml")
+  consulta <- '
+  PREFIX sosa: <http://www.w3.org/ns/sosa/>
+  PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+  PREFIX ex: <http://example.org#>
+
+  SELECT ?observacion ?sensor ?fecha ?valor ?noche ?luna ?estacion ?finSemana
+  WHERE {
+    ?observacion rdf:type sosa:Observation ;
+                 sosa:madeBySensor ?sensor ;
+                 sosa:resultTime ?fecha ;
+                 sosa:hasSimpleResult ?valor ;
+                 ex:esNocheAstronomica ?noche ;
+                 ex:hayBrilloLuna ?luna ;
+                 ex:perteneceAEstacion ?estacion;
+                 ex:finDeSemana ?finSemana .
+  }'
+
+  resultado <- rdf_query(rdf, consulta)
+  df <- as.data.frame(resultado)
+
+  df$valor <- as.numeric(df$valor)
+  df$noche <- tolower(df$noche) == "true"
+  df$luna <- tolower(df$luna) == "true"
+  df$finSemana <- tolower(df$finSemana) == "true"
+  df$fecha <- as.POSIXct(df$fecha, format="%Y-%m-%dT%H:%M:%S", tz="UTC")
+
+  return(df)
+}
+
+```
+
+En esta parte del código se decide si se leen todos los archivos de la carpeta indicada anteriormente o mediante expresiones regulares se ponen las condiciones que se decidan. En este caso se cargan cuatro archivos RDF/XML con el resultado de una consulta de SPARQL que recupera todas las observaciones realizadas con los fotómetros tras su enriquecimiento con información variada: si hay brillo de Luna, estación del año y si es fin de semana o no. Se hace así porque un único archivo pesa más de 350MB y R se reinicia al procesarlo. Sin embargo, dividido en 4 partes sí consigue cargar los datos.
+
+```{r combinar datos}
+# Lista de archivos RDF en la carpeta
+archivos <- list.files(rdf_data, pattern = "result04_.*\\.xml$", 
+                       full.names = TRUE)
+
+# Procesar y combinar todos los data.frames
+todos_los_datos <- bind_rows(lapply(archivos, procesar_rdf))
+```
+
+Se hace ahora un criba de los datos seleccionando aquellos de interés para el estudio, que son dentro de la noche astronómica y sin Luna (aunque esto ya se hizo en la descarga con SPARQL), y se eliminan los datos atípicos.
+
+```{r datos de interés}
+datos_filtrados <- subset(todos_los_datos, noche == TRUE & luna == FALSE)
+rm(todos_los_datos)
+datos_filtrados$solo_fecha <- as.Date(datos_filtrados$fecha)  # solo la fecha (YYYY-MM-DD)
+datos_filtrados$solo_hora  <- format(datos_filtrados$fecha, format = "%H:%M:%S")  # solo la hora
+datos_filtrados <- subset(datos_filtrados, valor > 0)
+#Valores atípicos
+
+lim_inf <- quantile(datos_filtrados$valor, 0.01, na.rm = TRUE)
+lim_sup <- quantile(datos_filtrados$valor, 0.99, na.rm = TRUE)
+datos_filtrados <- subset(datos_filtrados, valor >= lim_inf & valor <= lim_sup)
+
+#Valores atípicos
+
+Q1 <- quantile(datos_filtrados$valor, 0.25, na.rm = TRUE)
+Q3 <- quantile(datos_filtrados$valor, 0.75, na.rm = TRUE)
+IQR_valor <- Q3 - Q1
+
+lim_inf <- Q1 - 1.5 * IQR_valor
+lim_sup <- Q3 + 1.5 * IQR_valor
+
+outliers <- datos_filtrados %>%
+  filter(valor < lim_inf | valor > lim_sup)
+
+datos_filtrados <- subset(datos_filtrados, valor >= lim_inf & valor <= lim_sup)
+
+#Etiqueta
+datos_filtrados$etiqueta_sensor <- sub(".*#([^_]+_[^_]+).*", "\\1", datos_filtrados$sensor)
+```
+
+Para facilitar el graficado y el manejo de datos se añaden al datafram el Día Juliano y la fecha J2000 ya que así el orden de las fechas es más fácil de manejar. Es algo habitual en Astronomía.
+
+```{r calcular jd}
+calcular_jd <- function(fecha_hora) {
+  # Asegura formato POSIXlt
+  t <- as.POSIXlt(fecha_hora)
+
+  año <- t$year + 1900
+  mes <- t$mon + 1
+  día <- t$mday
+  hora_decimal <- t$hour + t$min / 60 + t$sec / 3600
+
+  # Ajuste si mes es enero o febrero
+  i <- mes <= 2
+  año[i] <- año[i] - 1
+  mes[i] <- mes[i] + 12
+
+  A <- floor(año / 100)
+  B <- 2 - A + floor(A / 4)
+
+  jd <- floor(365.25 * (año + 4716)) +
+        floor(30.6001 * (mes + 1)) +
+        día + B - 1524.5 + hora_decimal / 24
+
+  return(jd)
+}
+```
+
+Para una visualización rápida y de lectura fácil se hace un diagrama de cajas:
+
+```{r boxplot}
+ggplot(datos_filtrados, aes(x = etiqueta_sensor, y = valor, fill = etiqueta_sensor)) +
+  geom_boxplot() +
+  labs(title = "Distribución de valores por sensor",
+       x = "Sensor",
+       y = "Valor medido") +
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+También como análisis y lectura rápidos se realiza una representación de los datos tanto en serie temporal como agrupados por horas (se podría jugar con distintos conjuntos: meses, estaciones, grupo de horas, etc)
+
+```{r plot hora y fecha}
+datos_filtrados_graficar <- datos_filtrados %>%
+  mutate(
+    hora_decimal = as.numeric(format(fecha, "%H")) + as.numeric(format(fecha, "%M")) / 60,
+    hora_minuto = format(fecha, "%H:%M")
+  )
+
+lt <- as.POSIXlt(datos_filtrados_graficar$fecha)
+datos_filtrados_graficar$jd <- calcular_jd(lt)
+datos_filtrados_graficar$j2000 <- datos_filtrados_graficar$jd - 2451545.0
+
+# eliminar variables y basura
+rm(datos_filtrados)
+gc()
+```
+
+```{r graficar1}
+# Obtener los valores máximos y mínimos de hora_decimal
+hora_max <- floor(max(datos_filtrados_graficar$hora_decimal[
+  datos_filtrados_graficar$hora_decimal < 12], na.rm = TRUE))
+hora_min <- ceiling(min(datos_filtrados_graficar$hora_decimal[
+  datos_filtrados_graficar$hora_decimal >= 12], na.rm = TRUE))
+
+datos_filtrados_graficar$hora_para_grafica <- with(datos_filtrados_graficar,
+  ifelse(hora_decimal < 12, hora_decimal + 24, hora_decimal)
+)
+
+grafica_todo_junto <-ggplot(datos_filtrados_graficar, aes(x = hora_para_grafica, 
+                                                          y = valor, color=etiqueta_sensor)) +
+  geom_point(alpha = 0.5, size = 1) +
+  scale_color_viridis_d(option = "D") +  # Paleta daltónica
+  scale_shape(solid=FALSE) +    # Formas distintas
+  geom_smooth()+
+  #geom_smooth(method = "loess", se = FALSE, color = "blue", span = 0.2) +
+  scale_x_continuous(
+    #breaks = c(seq(hora_min, 23, by = 1),seq(hora_max, 0, by = -1)),
+    breaks = seq(17, 33, 1),
+    labels = function(x) sprintf("%02d:00", x %% 24)
+  ) +
+  labs(
+    title = "Brillo por hora con minutos (noches sin Luna)",
+    x = "Hora del día",
+    y = "Brillo (mag/arcsec²)"
+  ) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+
+grafica_tendencias <- ggplot(datos_filtrados_graficar, aes(x = solo_fecha, 
+                                                           y = valor, color = etiqueta_sensor)) +
+  geom_point(alpha = 0.3, size = 0.8) +
+  geom_smooth()+
+ # geom_smooth(se = FALSE, method = "loess",color = "red", span = 0.3, linewidth = 1) +
+  scale_color_viridis_d(option = "D") +  # Paleta daltónica
+  scale_shape_manual(values = 1:10) +    # Formas distintas
+  labs(
+    title = "Tendencia del brillo del cielo por lugar",
+    x = "Fecha",
+    y = "Brillo (mag/arcsec²)",
+    color = "etiqueta_sensor",
+    linetype = "etiqueta_sensor"
+  ) +
+  scale_x_date(date_breaks = "3 months", date_labels = "%d-%b-%Y") +
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Se guardan los gráficos en local para su visualización y se muestran para generar el informe:
+```{r guardar graficos}
+
+graficos <- "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/clustering/"
+
+ggsave(file.path(graficos,"grafica_tendencias.png"), plot =grafica_tendencias + theme(plot.background = element_rect(fill = "white", color = NA)),
+  width = 10, height = 6, dpi = 300)
+
+Sys.sleep(15)  # pausa 15 segundos
+
+ggsave(file.path(graficos,"grafica_todo_junto.png"), plot =grafica_todo_junto + theme(plot.background = element_rect(fill = "white", color = NA)),
+  width = 10, height = 6, dpi = 300)
+
+# Sys.sleep(15)  # pausa 15 segundos
+# 
+# ggsave(file.path(graficos,"grafica_tendencias_estacion.png"), plot =grafica_tendencias_estacion + theme(plot.background = element_rect(fill = "white", color = NA)),
+#   width = 10, height = 6, dpi = 300)
+```
+
+```{r grafica informe}
+grafica_tendencias
+grafica_todo_junto
+```
+
+En todas las gráficas mostradas, incluído el diagrama de cajas y bigotes, se pueden intuír grupos con tendencias de brillo de cielo nocturno distintos, lo que abre el camino a investigar métodos de clasificación automática.
+
+Aunque los atributos están en las mismas unidades de medida, se normalizan los datos para un mejor estudio de la varianza y mejor centrado de datos:
+
+```{r data scale}
+# Estandarización de los datos de las variables usadas en el estudio
+datos_filtrados_graficar$valor_escalado <- scale(datos_filtrados_graficar$valor)
+datos_filtrados_graficar$valor_lineal <- 10000000*10^(-0.4 * datos_filtrados_graficar$valor)
+datos_filtrados_graficar$valor_lineal_nrm <- scale(datos_filtrados_graficar$valor_lineal)
+```
+
+#Análisis de la zonificación por el grado de urbanización
+A continuación se añade al estudio información sobre la clasificación del territorio en función de su grado de urbanización (DEGURBA). Para ello se carga una tabla que relaciona el fotómetro con el lugar (se puede hacer con grafos, pero por falta de tiempo se hace de esta manera ya que con grafos, para hacerlo correctamente, se necesitan definir las fronteras de los municipios o áreas DEGURBA).
+
+```{r grafos fotómetros}
+library(readr)
+library(dplyr)
+library(stringr)
+
+# 1) Lee el TXT y extrae mapeo sensor -> DEGURBA
+ruta_txt <- "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/DefinicionCacharros/listaSensores.txt"  
+
+lineas <- readLines(ruta_txt, warn = FALSE, encoding = "UTF-8")
+
+tabla_degurba <- tibble(raw = lineas) %>%
+  mutate(
+    raw         = str_squish(raw),
+    sensor_name = sub("\\s.*$", "", raw),                                 # 1er token de la línea
+    degurba     = str_extract(raw, "Zona(?:Urbana|Intermedia|Rural)")     # etiqueta DEGURBA
+  ) %>%
+  filter(sensor_name != "", !is.na(degurba)) %>%
+  distinct(sensor_name, .keep_all = TRUE) %>%
+  select(sensor_name, degurba)
+
+# 2) dataframe original: columna 'sensor' es una URI completa
+#    -> saca el localname para cruzar
+df_enriquecido <- datos_filtrados_graficar %>%
+  mutate(sensor_name = sub("^.*[#/]", "", sensor)) %>%   # "http://...#SQM_X" -> "SQM_X"
+  left_join(tabla_degurba, by = "sensor_name") %>%
+  mutate(
+    degurba = factor(degurba, levels = c("ZonaUrbana","ZonaIntermedia",
+                                         "ZonaRural")),
+    degurba_num = as.integer(degurba)
+  )
+
+# eliminar variables y basura
+rm(datos_filtrados_graficar)
+gc()
+```
+
+# Métodos de aprendizaje no supervisado.
+En esta sección se hará un análisis de los posibles agrupamientos del conjunto de datos por métodos no supervisados:
+
+## Agrupación jerárquica.
+En primer lugar se realizará una agrupación jerárquica, consistente en agrupar datos en función de una distancia o métrica, con la representación del dendograma (árbol donde se representan las distancias de los atributos). Para las horas se toman en formato c\'iclico para evitar los saltos que hay con el cambio de día. Para documentarse sobre la codificaci\'on c\'iclica horaria se pueden consultar los enlaces:
+
+https://www.kaggle.com/code/avanwyk/encoding-cyclical-features-for-deep-learning
+
+https://medium.com/@axelazara6/why-we-need-encoding-cyclical-features-79ecc3531232
+
+```{r encode cíclico}
+datos_valores_degurba <- df_enriquecido
+# Codificar la hora decimal como variable circular
+datos_valores_degurba$hora_sin <- sin(2 * pi * datos_valores_degurba$hora_decimal / 24)
+datos_valores_degurba$hora_cos <- cos(2 * pi * datos_valores_degurba$hora_decimal / 24)
+```
+
+Código para la agrupación jerárquica con obtención de los dendogramas pertinentes.
+
+```{r agrupacion jerarquica}
+
+set.seed(42)
+# Escala temporal para que no domine
+datos_valores_degurba$j2000_z <- as.numeric(scale(datos_valores_degurba$j2000))
+
+sample_idx <- sample(nrow(datos_valores_degurba), 10000)  # por ejemplo, 10000 filas
+
+ds <- datos_valores_degurba[sample_idx, ]
+
+# --- Tres vistas de las features: log (valor), normalizada y lineal ---
+X_log <- cbind(
+  valor = as.numeric(scale(ds$valor)),   # log/mag escalado
+  hora_sin = ds$hora_sin,
+  hora_cos = ds$hora_cos#,
+  #j2000 = ds$j2000_z
+)
+
+X_nrm <- cbind(
+  valor = ds$valor_escalado,             # ya escalado
+  hora_sin = ds$hora_sin,
+  hora_cos = ds$hora_cos#,
+  #j2000 = ds$j2000_z
+)
+
+X_lin <- cbind(
+  valor = as.numeric(scale(ds$valor_lineal)),  # lineal escalado
+  hora_sin = ds$hora_sin,
+  hora_cos = ds$hora_cos#,
+  #j2000 = ds$j2000_z
+)
+
+# --- Distancias euclídeas (todas las variables comparables ya) ---
+D_log <- dist(X_log, method = "euclidean")
+D_nrm <- dist(X_nrm, method = "euclidean")
+D_lin <- dist(X_lin, method = "euclidean")
+
+# --- Agrupamientos (probar "average" además de "complete") ---
+hc_log <- hclust(D_log, method = "complete")
+hc_nrm <- hclust(D_nrm, method = "complete")
+hc_lin <- hclust(D_lin, method = "complete")
+
+# --- Dendrogramas ---
+dend_log <- as.dendrogram(hc_log)
+dend_nrm <- as.dendrogram(hc_nrm)
+dend_lin <- as.dendrogram(hc_lin)
+
+# --- Graficar (sin etiquetas para 10k hojas) ---
+png("dendrograma_valores_log_ciclico.png", width = 1600, height = 1200, res = 150)
+plot(dend_log, main = "Dendrograma (valor log) + hora cíclica", leaflab = "none")
+dev.off()
+
+png("dendrograma_valores_norm_ciclico.png", width = 1600, height = 1200, res = 150)
+plot(dend_nrm, main = "Dendrograma (valor escalado) + hora cíclica", leaflab = "none")
+dev.off()
+
+png("dendrograma_valores_lineal_ciclico.png", width = 1600, height = 1200, res = 150)
+plot(dend_lin, main = "Dendrograma (valor lineal) + hora cíclica", leaflab = "none")
+dev.off()
+```
+
+Dendogramas:
+
+```{r mostrar dendogramas}
+dend_log <- as.dendrogram(hc_log)
+dend_nrm <- as.dendrogram(hc_nrm)
+dend_lin <- as.dendrogram(hc_lin)
+
+dend_log
+dend_nrm
+dend_lin
+```
+
+Usando los valores linealizados se ve un dendograma aplastado, seguramente porque se tienen valores muy pequeños y se pierde información... Pero usando tanto la escala logarítmica en la que se mide por defecto (mag/arcsec²), como normalizando estos valores se obtiene un estudio robusto de clasificación jerárquica. Como el agrupamiento óptimo no es el objeto de este trabajo no se profundiza más; pero se continúa con la interpretación de los datos para completar el proceso representación del grafo -> explotación de datos
+
+```{r agrupamiento eligiendo altura}
+set.seed(42)
+## 1) Elige el dendrograma (log, lineal, normalizado)
+fit <- hc_log      # por ejemplo
+D   <- D_log        # su matriz de distancias correspondiente
+
+## 2A) Cortar por número de clústeres (k)
+h <- 3.5                         # se decide viendo el dendograma
+cl_h <- cutree(fit, h = h)      # vector de etiquetas 1..k (en el mismo orden que datos)
+table(cl_h)
+
+## dibuja rectángulos para comprobar el corte
+plot(fit, labels = FALSE, main = paste("Corte en h =", h))
+rect.hclust(fit, h = h, border = 2:(h+1))
+
+ds$clusterTreeH <- factor(cl_h)
+```
+Matriz de confusión
+
+```{r matriz de confusion 1}
+# Matriz de confusión (conteos)
+tab <- table(Real = ds$degurba,
+             Cluster = ds$cluster)
+tab
+
+# Porcentajes por fila (cómo se reparte cada clase real en clústeres)
+round(100 * prop.table(tab, 1), 1)
+
+# Porcentajes por columna (composición de cada clúster)
+round(100 * prop.table(tab, 2), 1)
+
+# Mapa de calor para visualizar la confusión
+library(ggplot2)
+df_tab <- as.data.frame(tab)
+ggplot(df_tab, aes(Cluster, Real, fill = Freq)) +
+  geom_tile() +
+  geom_text(aes(label = Freq), color = "white") +
+  scale_fill_gradient(low = "gray40", high = "steelblue") +
+  labs(title = "Matriz de confusión (clustering vs etiqueta real)",
+       x = "Clúster", y = "Etiqueta real") +
+  theme_minimal()
+```
+El número de aciertos es elevado considerando que no hay ningún tratamiento previo de los datos y hay medidas de crepúsculos que son difíciles de separar. Además los datos de partida no son muy claros puesto que la clasificación DEGURBA se hace a lo bruto y no exactamente como es. Por ejemplo el sensor de Viveiro está alejado del núcleo urbano y seguramente entre mejor en la clasificación de rural que de zona intermedia. Esto es algo que se puede (y debe) trabajar mejor, pero que exige una profundida inasumible para un trabajo como este tanto por tiempo como por los objetivos marcados. En cualquier caso, es evidente que la puerta de la clasificación automático está abierta y que es un camino a recorrer desde aquí con técnicas propias de esta rama de la inteligencia artificial, dejando en evidencia que la representación uniforme y homogénea de datos representados en grafos de conocimientos es una oportunidad con una potencialidad enorme.
+
+
+
+# Aprendizaje supervisado.
+A continuación, vamos a aplicar técnicas de aprendizaje supervisado para analizar los datos.Para todos los métodos vamos a usar el mismo grupo de entrenamiento y el mismo de prueba. Se definen a continuación:
+
+```{r muestreo}
+train <- ds
+test <- datos_valores_degurba[-sample_idx, ][c("hora_sin","hora_cos","j2000","valor","valor_lineal","degurba_num")]
+
+# Normalizar train y guardar medias/desviaciones
+train_x <- train[, c("valor", "hora_sin","hora_cos","degurba_num")]
+train_scaled <- scale(train_x)
+train_nrm <- train_scaled
+
+# Usar los mismos parámetros para test
+test_x <- test[, c("valor", "hora_sin","hora_cos","degurba_num")]
+test_nrm <- scale(test_x)
+
+colnames(train_nrm) <- c("valor_nrm", "hora_sin","hora_cos","degurba_num")
+colnames(test_nrm)  <- c("valor_nrm", "hora_sin","hora_cos","degurba_num")
+train <- cbind(train, train_nrm)
+test  <- cbind(test, test_nrm)
+
+
+
+```
+Los datos de entrenamiento y test se escalan por separado puesto que en la práctica no se tienen todos juntos a priori para hacer el escalado conjunto. Se hace el modelo con los datos escalados y se aplica a otros datos también escalados.
+
+## kNN: k vecinos más próximos
+Comenzamos con el método de los $k$ vecinos más próximos, que consiste en introducir los $k$ datos más cercanos a un dato inicial en el grupo de este:
+
+```{r knn}
+library(class)
+library(ggplot2)
+
+s <- 10  # semilla
+v <- seq(1, 103, by = 2)  # valores impares de k
+error <- vector(length = length(v))
+
+# Variables predictoras y objetivo
+train_predictor <- train[, c("valor_nrm", "hora_sin","hora_cos")]
+test_predictor  <- test[, c("valor_nrm", "hora_sin","hora_cos")]
+train_objetivo  <- train$degurba_num
+test_objetivo   <- test$degurba_num
+
+# Cálculo del error para cada k
+for (j in seq_along(v)) {
+  k <- v[j]
+  set.seed(s * 1.2)
+  pred <- knn(train = train_predictor, test = test_predictor, 
+              cl = train_objetivo, k = k)
+  error[j] <- 1 - mean(pred == test_objetivo)
+}
+
+# Crear data frame para ggplot
+df_error <- data.frame(k = v, error = error)
+
+# Encontrar el mínimo
+min_error <- min(df_error$error)
+best_k <- df_error$k[which.min(df_error$error)]
+
+# Graficar
+g <- ggplot(df_error, aes(x = k, y = error)) +
+  geom_line(color = "blue", linewidth = 1) +
+  geom_point(color = "red", size = 2) +
+  geom_hline(yintercept = min_error, linetype = "dashed", color = "darkgreen") +
+  geom_vline(xintercept = best_k, linetype = "dotted", color = "purple") +
+  annotate("text", x = best_k + 0.5, y = min_error + 0.01,
+           label = paste("Mejor k =", best_k),
+           color = "purple", hjust = 0) +
+  labs(
+    title = "Error de clasificación según el número de vecinos (k)",
+    x = "Número de vecinos (k)",
+    y = "Error de clasificación"
+  ) +
+  theme_minimal()
+
+print(min_error)
+print(best_k)
+g
+```
+
+El mejor sale con $k=89$, aunque la gráfica de error se estabiliza mucho antes. A continuación se analizan los menores errores:
+```{r knn error}
+# Ordenamos por error y seleccionamos los N mejores
+N <- 5  
+mejores <- df_error[order(df_error$error), ][1:N, ]
+
+# Graficar solo los mejores
+g<- ggplot(mejores, aes(x = factor(k), y = error)) +
+  geom_col(fill = "steelblue") +
+  geom_text(aes(label = round(error, 3)), vjust = -0.5) +
+  labs(
+    title = paste("Top", N, "valores de k con menor error"),
+    x = "k",
+    y = "Error de clasificación"
+  ) +
+  theme_minimal()
+
+g
+```
+Son todos errores iguales. Se trabaja con el que el algoritmo dice que es el óptimo. Es decir, para una clasificación en la que se adjudica en un mismo grupo a un punto y a los k-óptimo más cercanos a él. Es en esta matriz donde se ve el número de aciertos para cada grupo:
+```{r confusion matrix}
+# Ejecutar modelo KNN
+set.seed(123)
+k_optimo <- df_error$k[which.min(df_error$error)]
+pred <- knn(train = train_predictor, test = test_predictor, cl = train_objetivo, k = k_optimo)
+
+matriz_confusion <- table(Predicho = pred, Real = test_objetivo)
+porcentaje_total <- round(100 * matriz_confusion / sum(matriz_confusion), 2)
+porcentaje_por_fila <- round(100 * prop.table(matriz_confusion, margin = 2), 2)
+porcentaje_por_columna <- round(100 * prop.table(matriz_confusion, margin = 1), 2)
+print(matriz_confusion)
+```
+
+Al vista de los resultados este método de clasificación funciona muy bien. Pero la conclusión importante para este trabajo es que la clasificación automática es posible. Además es importante señalar que en este informe se trabaja de la manera más simple posible analizando las medidas puntuales sin ningún tipo de tratamiento ni filtro previo.

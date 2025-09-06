@@ -1,0 +1,160 @@
+config:
+  base_uri: http://example.org#
+  outfile: grafo_estadistica_periodos_sept2023_feb2025.ttl
+  mode_method: density
+  hist_breaks: 30.0
+  digits: 6.0
+  sensor_col: sensor
+  value_col: valor
+  time_col: fecha
+entries:
+- sensor_id: http://example.org#SQM_Cervantes_ANC_42.820778_-6.922902
+  sensor_label: SQM_Cervantes
+  period_start: 2023-10-01 00:00:00
+  period_end: 2023-12-31 23:59:59
+  period_label: Trim42023
+- sensor_id: http://example.org#SQM_Cervantes_ANC_42.820778_-6.922902
+  sensor_label: SQM_Cervantes
+  period_start: 2024-01-01 00:00:00
+  period_end: 2024-03-31 23:59:59
+  period_label: Trim12024
+- sensor_id: http://example.org#SQM_Cervantes_ANC_42.820778_-6.922902
+  sensor_label: SQM_Cervantes
+  period_start: 2024-04-01 00:00:00
+  period_end: 2024-06-30 23:59:59
+  period_label: Trim22024
+- sensor_id: http://example.org#SQM_Cervantes_ANC_42.820778_-6.922902
+  sensor_label: SQM_Cervantes
+  period_start: 2024-07-01 00:00:00
+  period_end: 2024-09-30 23:59:59
+  period_label: Trim32024
+- sensor_id: http://example.org#SQM_Cervantes_ANC_42.820778_-6.922902
+  sensor_label: SQM_Cervantes
+  period_start: 2024-10-01 00:00:00
+  period_end: 2024-12-31 23:59:59
+  period_label: Trim42024
+- sensor_id: http://example.org#SQM_Cervantes_ANC_42.820778_-6.922902
+  sensor_label: SQM_Cervantes
+  period_start: 2025-01-01 00:00:00
+  period_end: 2025-01-31 23:59:59
+  period_label: Enero2025
+- sensor_id: http://example.org#SQM_Forcarei_FOR_42.610943_-8.370965
+  sensor_label: SQM_Forcarei
+  period_start: 2023-10-01 00:00:00
+  period_end: 2023-12-31 23:59:59
+  period_label: Trim42023
+- sensor_id: http://example.org#SQM_Forcarei_FOR_42.610943_-8.370965
+  sensor_label: SQM_Forcarei
+  period_start: 2024-01-01 00:00:00
+  period_end: 2024-03-31 23:59:59
+  period_label: Trim12024
+- sensor_id: http://example.org#SQM_Forcarei_FOR_42.610943_-8.370965
+  sensor_label: SQM_Forcarei
+  period_start: 2024-04-01 00:00:00
+  period_end: 2024-06-30 23:59:59
+  period_label: Trim22024
+- sensor_id: http://example.org#SQM_Forcarei_FOR_42.610943_-8.370965
+  sensor_label: SQM_Forcarei
+  period_start: 2024-07-01 00:00:00
+  period_end: 2024-09-30 23:59:59
+  period_label: Trim32024
+- sensor_id: http://example.org#SQM_Forcarei_FOR_42.610943_-8.370965
+  sensor_label: SQM_Forcarei
+  period_start: 2024-10-01 00:00:00
+  period_end: 2024-12-31 23:59:59
+  period_label: Trim42024
+- sensor_id: http://example.org#SQM_Forcarei_FOR_42.610943_-8.370965
+  sensor_label: SQM_Forcarei
+  period_start: 2025-01-01 00:00:00
+  period_end: 2025-01-31 23:59:59
+  period_label: Enero2025
+- sensor_id: http://example.org#SQM_PortoVigo_VIG_42.241670_-8.727587
+  sensor_label: SQM_PortoVigo
+  period_start: 2023-10-01 00:00:00
+  period_end: 2023-12-31 23:59:59
+  period_label: Trim42023
+- sensor_id: http://example.org#SQM_PortoVigo_VIG_42.241670_-8.727587
+  sensor_label: SQM_PortoVigo
+  period_start: 2024-01-01 00:00:00
+  period_end: 2024-03-31 23:59:59
+  period_label: Trim12024
+- sensor_id: http://example.org#SQM_PortoVigo_VIG_42.241670_-8.727587
+  sensor_label: SQM_PortoVigo
+  period_start: 2024-04-01 00:00:00
+  period_end: 2024-06-30 23:59:59
+  period_label: Trim22024
+- sensor_id: http://example.org#SQM_PortoVigo_VIG_42.241670_-8.727587
+  sensor_label: SQM_PortoVigo
+  period_start: 2024-07-01 00:00:00
+  period_end: 2024-09-30 23:59:59
+  period_label: Trim32024
+- sensor_id: http://example.org#SQM_PortoVigo_VIG_42.241670_-8.727587
+  sensor_label: SQM_PortoVigo
+  period_start: 2024-10-01 00:00:00
+  period_end: 2024-12-31 23:59:59
+  period_label: Trim42024
+- sensor_id: http://example.org#SQM_PortoVigo_VIG_42.241670_-8.727587
+  sensor_label: SQM_PortoVigo
+  period_start: 2025-01-01 00:00:00
+  period_end: 2025-01-31 23:59:59
+  period_label: Enero2025
+- sensor_id: http://example.org#SQM_IllasCies_CIE_42.213900_-8.906000
+  sensor_label: SQM_IllasCies
+  period_start: 2023-10-01 00:00:00
+  period_end: 2023-12-31 23:59:59
+  period_label: Trim42023
+- sensor_id: http://example.org#SQM_IllasCies_CIE_42.213900_-8.906000
+  sensor_label: SQM_IllasCies
+  period_start: 2024-01-01 00:00:00
+  period_end: 2024-03-31 23:59:59
+  period_label: Trim12024
+- sensor_id: http://example.org#SQM_IllasCies_CIE_42.213900_-8.906000
+  sensor_label: SQM_IllasCies
+  period_start: 2024-04-01 00:00:00
+  period_end: 2024-06-30 23:59:59
+  period_label: Trim22024
+- sensor_id: http://example.org#SQM_IllasCies_CIE_42.213900_-8.906000
+  sensor_label: SQM_IllasCies
+  period_start: 2024-07-01 00:00:00
+  period_end: 2024-09-30 23:59:59
+  period_label: Trim32024
+- sensor_id: http://example.org#SQM_IllasCies_CIE_42.213900_-8.906000
+  sensor_label: SQM_IllasCies
+  period_start: 2024-10-01 00:00:00
+  period_end: 2024-12-31 23:59:59
+  period_label: Trim42024
+- sensor_id: http://example.org#SQM_IllasCies_CIE_42.213900_-8.906000
+  sensor_label: SQM_IllasCies
+  period_start: 2025-01-01 00:00:00
+  period_end: 2025-01-31 23:59:59
+  period_label: Enero2025
+- sensor_id: http://example.org#SQM_PenedoDoGalo_VIV_43.660763_-7.562965
+  sensor_label: SQM_PenedoDoGalo
+  period_start: 2023-10-01 00:00:00
+  period_end: 2023-12-31 23:59:59
+  period_label: Trim42023
+- sensor_id: http://example.org#SQM_PenedoDoGalo_VIV_43.660763_-7.562965
+  sensor_label: SQM_PenedoDoGalo
+  period_start: 2024-01-01 00:00:00
+  period_end: 2024-03-31 23:59:59
+  period_label: Trim12024
+- sensor_id: http://example.org#SQM_PenedoDoGalo_VIV_43.660763_-7.562965
+  sensor_label: SQM_PenedoDoGalo
+  period_start: 2024-04-01 00:00:00
+  period_end: 2024-06-30 23:59:59
+  period_label: Trim22024
+- sensor_id: http://example.org#SQM_PenedoDoGalo_VIV_43.660763_-7.562965
+  sensor_label: SQM_PenedoDoGalo
+  period_start: 2024-07-01 00:00:00
+  period_end: 2024-09-30 23:59:59
+  period_label: Trim32024
+- sensor_id: http://example.org#SQM_PenedoDoGalo_VIV_43.660763_-7.562965
+  sensor_label: SQM_PenedoDoGalo
+  period_start: 2024-10-01 00:00:00
+  period_end: 2024-12-31 23:59:59
+  period_label: Trim42024
+- sensor_id: http://example.org#SQM_PenedoDoGalo_VIV_43.660763_-7.562965
+  sensor_label: SQM_PenedoDoGalo
+  period_start: 2025-01-01 00:00:00
+  period_end: 2025-01-31 23:59:59
+  period_label: Enero2025

@@ -1,0 +1,80 @@
+PREFIX ex:   <http://example.org#>
+PREFIX dul:  <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+INSERT {
+  GRAPH <http://example.org/grafoMedidas> {
+    ?obs ex:lucesNavidadEncendidas ?hayLuces .
+  }
+}
+WHERE {
+  # --- Observaciones candidatas ---
+  GRAPH <http://example.org/grafoMedidas> {
+    ?obs a sosa:Observation ;
+         sosa:madeBySensor ?sensor ;
+         sosa:resultTime   ?rtFull .
+
+    FILTER( CONTAINS(STR(?sensor), "SQM_PortoVigo")
+         || CONTAINS(STR(?sensor), "SQM_IllasCies") )
+
+    # Ventana amplia que cubra ambas campañas 
+    FILTER(
+      (xsd:dateTime(?rtFull) >= "2023-11-01T00:00:00+00:00"^^xsd:dateTime &&
+       xsd:dateTime(?rtFull) <  "2024-02-01T00:00:00+00:00"^^xsd:dateTime) ||
+      (xsd:dateTime(?rtFull) >= "2024-11-01T00:00:00+00:00"^^xsd:dateTime &&
+       xsd:dateTime(?rtFull) <  "2025-02-01T00:00:00+00:00"^^xsd:dateTime)
+    )
+
+    BIND( STRDT(SUBSTR(STR(?rtFull),1,10), xsd:date) AS ?obsDate )  # YYYY-MM-DD
+  }
+
+  # --- ¿Cae dentro de algún día de alguno de los dos eventos? ---
+  BIND( EXISTS {
+    GRAPH <http://example.org/grafoNadalVigo> {
+      VALUES ?evento { ex:NadalVigo20232024 ex:NadalVigo20242025 }
+
+      ?evento dul:hasPart ?dia .
+      ?dia dcterms:date ?fecha ;              # xsd:date del día (YYYY-MM-DD)
+           time:hasTime ?interval .
+		                
+      # Horas del intervalo como xsd:time (con posible zona +00:00)
+      ?interval time:hasBeginning ?tStart ;
+                time:hasEnd       ?tEnd   .
+
+      # Nos quedamos con "hh:mm:ss" (primeros 8 chars)
+      BIND( SUBSTR(STR(?tStart),1,8) AS ?tStartHH )
+      BIND( SUBSTR(STR(?tEnd),  1,8) AS ?tEndHH   )
+
+      # Construimos datetimes (UTC) del inicio y dos posibles finales
+      BIND( STRDT(CONCAT(STR(?fecha), "T", ?tStartHH, "+00:00"), xsd:dateTime) AS ?evtStart )
+      BIND( STRDT(CONCAT(STR(?fecha), "T", ?tEndHH,   "+00:00"), xsd:dateTime) AS ?evtEndSame )
+
+      # ¿Cruza medianoche? (fin "menor" que inicio)
+      BIND( ?tEndHH < ?tStartHH AS ?cross )
+
+      # Día siguiente para el fin si cruza medianoche
+      BIND( STRDT(CONCAT(STR(?fecha), "T00:00:00+00:00"), xsd:dateTime) AS ?midnight )
+      BIND( ?midnight + "P1D"^^xsd:dayTimeDuration AS ?nextMidnight )
+      BIND( SUBSTR(STR(?nextMidnight), 1, 10) AS ?nextDateStr )
+      BIND( STRDT(?nextDateStr, xsd:date) AS ?fechaNext )
+      BIND( STRDT(CONCAT(?nextDateStr, "T", ?tEndHH, "+00:00"), xsd:dateTime) AS ?evtEndNext )
+
+      # Coincidencia por caso
+      FILTER(
+        (?cross = false  &&
+           ?obsDate = ?fecha &&
+           ?rtFull >= ?evtStart && ?rtFull <= ?evtEndSame)
+        ||
+        (?cross = true   &&
+          (
+            (?obsDate = ?fecha     && ?rtFull >= ?evtStart) ||
+            (?obsDate = ?fechaNext && ?rtFull <= ?evtEndNext)
+          )
+        )
+      )
+    }
+  } AS ?hayLuces )
+}

@@ -1,0 +1,390 @@
+---
+title: "Análisis del brillo de cielo nocturno durante la Navidad de Vigo"
+author: "Víctor Tilve"
+date: "2025-09-05"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Primer análisis de los datos.
+En primer lugar se indica la carpeta donde se encuentran los archivo en formatos Turtle y RDF/XML para cargarlos. Muchos ya fueron tratados mediante consultal SPARQL con la herramienta GraphDB para llegar aquí con toda la información necesaria y requerida. Después se define la consulta SPARQL cuyo resultado será transformado en un dataframe de R.
+
+```{r read inicio}
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(rdflib)
+
+rdf_data <- "/media/victor/1FPB-COTARE/Cousas/TFM-IA/TFM-traballo/00.CousasDefinitivas/EventoLucesNadal/grafoLucesNavidadEncendidas"
+
+#Función para procesar un solo archivo RDF/XML
+#Mucho ojo con los prefijos porque en ex el final / o # debe coincidir con el grafo
+procesar_rdf <- function(file_path) {
+  rdf <- rdf_parse(file_path, format = "rdfxml")
+  consulta <- '
+  PREFIX sosa: <http://www.w3.org/ns/sosa/>
+  PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+  PREFIX ex: <http://example.org#>
+
+  SELECT ?observacion ?sensor ?fecha ?valor ?noche ?luna ?finSemana ?lucesNavidad
+  WHERE {
+    ?observacion rdf:type sosa:Observation ;
+                 sosa:madeBySensor ?sensor ;
+                 sosa:resultTime ?fecha ;
+                 sosa:hasSimpleResult ?valor ;
+                 ex:esNocheAstronomica ?noche ;
+                 ex:hayBrilloLuna ?luna ;
+                 ex:finDeSemana ?finSemana ;
+                 ex:lucesNavidadEncendidas ?lucesNavidad ;
+  }'
+
+  resultado <- rdf_query(rdf, consulta)
+  df <- as.data.frame(resultado)
+
+  df$valor <- as.numeric(df$valor)
+  df$noche <- tolower(df$noche) == "true"
+  df$luna <- tolower(df$luna) == "true"
+  df$finSemana <- tolower(df$finSemana) == "true"
+  df$fecha <- as.POSIXct(df$fecha, format="%Y-%m-%dT%H:%M:%S", tz="UTC")
+
+  return(df)
+}
+
+```
+
+En esta parte del código se decide si se leen todos los archivos de la carpeta indicada anteriormente o mediante expresiones regulares se ponen las condiciones que se decidan. En este caso se cargan cuatro archivos RDF/XML con el resultado de una consulta de SPARQL que recupera todas las observaciones realizadas con los fotómetros tras su enriquecimiento con información variada: si hay brillo de Luna, estación del año y si es fin de semana o no. Se hace así porque un único archivo pesa más de 350MB y R se reinicia al procesarlo. Sin embargo, dividido en 4 partes sí consigue cargar los datos.
+
+```{r combinar datos}
+# Lista de archivos RDF en la carpeta
+archivos <- list.files(rdf_data, pattern = "\\.xml$", 
+                       full.names = TRUE)
+
+# Procesar y combinar todos los data.frames
+todos_los_datos <- bind_rows(lapply(archivos, procesar_rdf))
+```
+
+Se hace ahora un criba de los datos seleccionando aquellos de interés para el estudio, que son dentro de la noche astronómica y sin Luna, y se eliminan los datos atípicos.
+
+```{r datos de interés}
+datos_filtrados <- subset(todos_los_datos, noche == TRUE & luna == FALSE)
+rm(todos_los_datos)
+datos_filtrados$solo_fecha <- as.Date(datos_filtrados$fecha)  # solo la fecha (YYYY-MM-DD)
+datos_filtrados$solo_hora  <- format(datos_filtrados$fecha, format = "%H:%M:%S")  # solo la hora
+datos_filtrados <- subset(datos_filtrados, valor > 0)
+#Valores atípicos
+
+lim_inf <- quantile(datos_filtrados$valor, 0.01, na.rm = TRUE)
+lim_sup <- quantile(datos_filtrados$valor, 0.99, na.rm = TRUE)
+datos_filtrados <- subset(datos_filtrados, valor >= lim_inf & valor <= lim_sup)
+
+#Valores atípicos
+
+Q1 <- quantile(datos_filtrados$valor, 0.25, na.rm = TRUE)
+Q3 <- quantile(datos_filtrados$valor, 0.75, na.rm = TRUE)
+IQR_valor <- Q3 - Q1
+
+lim_inf <- Q1 - 1.5 * IQR_valor
+lim_sup <- Q3 + 1.5 * IQR_valor
+
+outliers <- datos_filtrados %>%
+  filter(valor < lim_inf | valor > lim_sup)
+
+datos_filtrados <- subset(datos_filtrados, valor >= lim_inf & valor <= lim_sup)
+
+#Etiqueta
+datos_filtrados$etiqueta_sensor <- sub(".*#([^_]+_[^_]+).*", "\\1", datos_filtrados$sensor)
+```
+
+Para las horas se toman en formato c\'iclico para evitar los saltos que hay con el cambio de día. Para documentarse sobre la codificaci\'on c\'iclica horaria se pueden consultar los enlaces:
+
+https://www.kaggle.com/code/avanwyk/encoding-cyclical-features-for-deep-learning
+
+https://medium.com/@axelazara6/why-we-need-encoding-cyclical-features-79ecc3531232
+
+```{r encode cíclico}
+# Codificar la hora decimal como variable circular
+datos_filtrados <- datos_filtrados %>%
+  mutate(
+    hora_decimal = as.numeric(format(fecha, "%H")) + as.numeric(format(fecha, "%M")) / 60,
+    hora_minuto = format(fecha, "%H:%M")
+  )
+
+datos_filtrados$hora_sin <- sin(2 * pi * datos_filtrados$hora_decimal / 24)
+datos_filtrados$hora_cos <- cos(2 * pi * datos_filtrados$hora_decimal / 24)
+```
+
+# Patrón Navidad
+En este apartado se va a analizar si existe un patrón de luces de Navidad
+
+```{r boxplot fin de semana}
+# Paquetes
+library(dplyr)
+library(ggplot2)
+
+# --------- Boxplots DS vs FS para cada sensor  ----------
+sensor_col = "etiqueta_sensor"
+value_col  = "valor"
+time_col   = "fecha"
+lucesNavidad_col= "lucesNavidad"
+                                  
+# Etiquetas bonitas
+datos_filtrados$lucesNavidad_lbl <- factor(ifelse(datos_filtrados$lucesNavidad, 
+                                      "Encendidas", "Apagadas"), 
+                                      levels = c("Encendidas","Apagadas"))
+
+
+# Gráfico facetado por sensor
+g <- ggplot(datos_filtrados, aes(x = lucesNavidad_lbl, 
+                                 y = .data[[value_col]], 
+                                 fill = lucesNavidad_lbl)) +
+    geom_boxplot(outlier.alpha = 0.2, outlier.size = 0.7) +
+    stat_summary(fun = mean, geom = "point", shape = 23, size = 1.8, 
+                 fill = "white") +
+    facet_wrap(vars(.data[[sensor_col]]), scales = "free_y") +
+    scale_fill_brewer(palette = "Set2", guide = "none") +
+    labs(title = "Distribución del brillo por sensor (luces Navidad encendidas vs apagadas)",
+         x = NULL, y = "Brillo (mag/arcsec²)") +
+    theme_minimal(base_size = 11)+
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+g
+```
+
+Parece que en las Illas Cíes no se aprecian diferencias importantes entre apagadas y encendidas; sin embargo en el Porto de Vigo sí.
+
+# Test de permutación
+El test de permutaciones es un test de significancia estadística para el estudio de diferencias entre grupos desarrollado por Ronald Fisher y E.J.G. Pitman en 1930.
+
+```{r test permutacion}
+library(dplyr)
+library(lubridate)
+set.seed(100)
+
+df_noches <- datos_filtrados %>%
+  group_by(sensor, fecha, lucesNavidad, lucesNavidad_lbl) %>%
+  summarise(mediana = median(valor, na.rm = TRUE), .groups = "drop")
+
+permutacion_test <- function(x_on, x_off, B = 1500, stat = function(a,b) median(a) - median(b)) {
+  x_on  <- x_on[is.finite(x_on)]
+  x_off <- x_off[is.finite(x_off)]
+  obs <- stat(x_on, x_off)
+  pooled <- c(x_on, x_off)
+  n_on <- length(x_on)
+
+  perms <- replicate(B, {
+    idx <- sample(seq_along(pooled))
+    stat(pooled[idx][1:n_on], pooled[idx][-(1:n_on)])
+  })
+  p_val <- mean(abs(perms) >= abs(obs))
+  list(stat_observada = obs, p_value = p_val)
+}
+
+# Ejecuta por sensor:
+results_perm <- df_noches %>%
+  group_by(sensor) %>%
+  summarise({
+    on  <- mediana[lucesNavidad]
+    off <- mediana[!lucesNavidad]
+    if (length(on) > 3 && length(off) > 3) {
+      r <- permutacion_test(on, off, B = 1500)
+      tibble(dif_mediana = r$stat_observada, p_value = r$p_value,
+             n_medidas_on = length(on), n_medidas_off = length(off))
+    } else {
+      tibble(dif_mediana = NA_real_, p_value = NA_real_, n_noches_on = length(on), n_noches_off = length(off))
+    }
+  }) %>%
+  arrange(p_value)
+
+print(results_perm)
+
+```
+Según estos resultados, la variación de brillo es significativa en Illas Cíes y no lo es en Porto de Vigo; pero esto no casa con el diagrama de cajas hecho anteriormente. A continuación se profundiza en el análisis estratificando por día.
+
+```{r permutaciones por dia}
+library(dplyr)
+library(purrr)
+library(tidyr)
+library(stats)
+
+set.seed(100)
+
+# --- Preparación de datos ---
+df0 <- datos_filtrados %>%
+  transmute(
+    sensor = as.character(sensor),
+    rt     = as.POSIXct(fecha, tz = "UTC"),
+    valor  = as.numeric(valor),
+    luces  = as.logical(lucesNavidad),
+    fecha  = as.Date(fecha, tz = "UTC")
+  ) %>%
+  filter(!is.na(sensor), !is.na(rt), !is.na(valor), !is.na(luces))
+
+# sensores 
+sensores <- c("SQM_PortoVigo", "SQM_IllasCies")
+
+# --- (A) Test de permutación estratificado por fecha ---
+test_perm_por_fecha <- function(d, n_perm = 5000) {
+  d1 <- d %>%
+    group_by(fecha) %>%
+    filter(any(luces == TRUE) & any(luces == FALSE)) %>%
+    ungroup()
+
+  if (nrow(d1) == 0) {
+    return(tibble(
+      dif_mediana = NA_real_, p_value = NA_real_,
+      n_on = sum(d$luces), n_off = sum(!d$luces),
+      n_dias = 0
+    ))
+  }
+
+  stat_global <- function(z) {
+    med_on  <- median(z$valor[z$luces], na.rm = TRUE)
+    med_off <- median(z$valor[!z$luces], na.rm = TRUE)
+    med_on - med_off
+  }
+
+  T_obs <- stat_global(d1)
+
+  perm_once <- function() {
+    z <- d1 %>%
+      group_by(fecha) %>%
+      mutate(luces_perm = sample(luces)) %>%  # permuta SOLO dentro de cada fecha
+      ungroup()
+    med_on  <- median(z$valor[z$luces_perm], na.rm = TRUE)
+    med_off <- median(z$valor[!z$luces_perm], na.rm = TRUE)
+    med_on - med_off
+  }
+
+  T_perm <- replicate(n_perm, perm_once())
+  p_two  <- mean(abs(T_perm) >= abs(T_obs))
+
+  tibble(
+    dif_mediana = T_obs,
+    p_value     = p_two,
+    n_on        = sum(d1$luces),
+    n_off       = sum(!d1$luces),
+    n_dias      = dplyr::n_distinct(d1$fecha)
+  )
+}
+
+res_perm <- map_dfr(sensores, function(pat) {
+  d <- df0 %>% filter(grepl(pat, sensor))
+  out <- test_perm_por_fecha(d, n_perm = 500)
+  mutate(out, sensor = pat, .before = 1)
+})
+
+print(res_perm)
+
+# --- (B) Wilcoxon pareado sobre medianas DIARIAS ---
+wilcoxon_por_fecha <- function(d) {
+  per_dia <- d %>%
+    group_by(fecha, luces) %>%
+    summarise(med = median(valor, na.rm = TRUE), .groups = "drop") %>%
+    pivot_wider(names_from = luces, values_from = med, names_prefix = "luces_") %>%
+    filter(!is.na(luces_TRUE), !is.na(luces_FALSE)) %>%
+    mutate(diff = luces_TRUE - luces_FALSE)
+
+  if (nrow(per_dia) == 0) {
+    return(list(n_dias = 0, diff_mediana = NA_real_, wilcox = NULL))
+  }
+
+  test <- wilcox.test(per_dia$diff, mu = 0, alternative = "two.sided", exact = FALSE)
+  list(
+    n_dias = nrow(per_dia),
+    diff_mediana = median(per_dia$diff, na.rm = TRUE),
+    wilcox = test
+  )
+}
+
+res_wilcox <- map(sensores, function(pat) {
+  d <- df0 %>% filter(grepl(pat, sensor))
+  out <- wilcoxon_por_fecha(d)
+  tibble(
+    sensor = pat,
+    n_dias = out$n_dias,
+    mediana_dif_diaria = out$diff_mediana,
+    W = if (!is.null(out$wilcox)) unname(out$wilcox$statistic) else NA_real_,
+    p_value = if (!is.null(out$wilcox)) out$wilcox$p.value else NA_real_
+  )
+}) %>% list_rbind()
+
+print(res_wilcox)
+
+```
+El resultadao son p-valores altos en el test de permutaciones y en Wilcoxon las datos de Illas Cíes se acercan a un p-valor significativo, manteniendo así la contradicción tanto respecto a los diagramas de caja como a la lógico, ya que el SQM de Porto de Vigo está en el centro de la ciudad, donde están las luces instadas. Parece conveniente calcular los datos estadísticos habituales para ver qué sucede:
+
+```{r esadistica}
+
+df_luces <- subset(datos_filtrados,etiqueta_sensor="SQM_PortoVigo",lucesNavidad == TRUE)
+v1<-df_luces$valor
+ # --- Cálculo de estadísticos ---
+  Q1   <- as.numeric(quantile(v1, .25))
+  med  <- as.numeric(quantile(v1, .5))
+  Q3   <- as.numeric(quantile(v1, .75))
+  minv <- min(v1)
+  maxv <- max(v1)
+  IQRv <- Q3 - Q1
+  meanv <- mean(v1)
+  sdv   <- sd(v1)
+  
+estadisticos <- c(Q1,med,Q3,minv,maxv,IQRv,meanv,sdv)
+
+df_luces <- subset(datos_filtrados,etiqueta_sensor="SQM_PortoVigo",lucesNavidad == FALSE)
+v2<-df_luces$valor
+ 
+# --- Cálculo de estadísticos ---
+  Q1   <- as.numeric(quantile(v2, .25))
+  med  <- as.numeric(quantile(v2, .5))
+  Q3   <- as.numeric(quantile(v2, .75))
+  minv <- min(v2)
+  maxv <- max(v2)
+  IQRv <- Q3 - Q1
+  meanv <- mean(v2)
+  sdv   <- sd(v2)
+
+  estadisticos <- rbind2(estadisticos,c(Q1,med,Q3,minv,maxv,IQRv,meanv,sdv))
+  
+  colnames(estadisticos) <- c("Q1","med","Q3","minv","maxv","IQRv","meanv","sdv")
+  rownames(estadisticos) <- c("PortoVigo-ON", "PortoVigo-OFF")
+  
+  estadisticos
+```
+
+Se confirma con estos datos que efectivamente no hay cambios significativos a nivel global en el brillo de fondo de cielo medido con el SQM instalado en el Porto de Vigo con y sin luces de Navidad. Igualmente se hace un último intento con un algoritmo de entrenamiento.
+
+# “Contrafactual” sencillo por sensor
+Con este algoritmo se entrena un modelo (ARIMA/ETS/loess) solo con noches sin luces, posteriormente se predice en noches con luces y se analiza el sesgo medio de los residuos.
+
+```{r contrafactual}
+
+library(dplyr)
+library(forecast)
+set.seed(100)
+contrafactual <- function(dd) {
+  # Serie a 10 min promediada por fecha
+  serie <- dd %>% arrange(fecha)
+  # Entrena con OFF
+  train <- serie %>% filter(!lucesNavidad)
+  test  <- serie %>% filter( lucesNavidad)
+  if (nrow(train) < 200 || nrow(test) < 50) return(NA_real_)
+  fit <- auto.arima(train$valor)
+  fc <- forecast(fit, h = nrow(test))
+  mean(test$valor - as.numeric(fc$mean), na.rm = TRUE)
+}
+
+bias_por_sensor <- datos_filtrados %>%
+  group_by(sensor) %>%
+  summarise(sesgo_medio_on_vs_cf = contrafactual(cur_data_all()))
+
+print(bias_por_sensor)
+
+
+```
+Los dos sesgos medios son negativos, por lo que durante el encendido de las luces el cielo tiene menos magnitud, es decir, más brillo (peor oscuridad) que su contrafactual sin luces.
+
+En términos lineales, ya que la magnitud es logarítmica, estos resultados dicen que el cielo de Cíes es 2,22 veces más brillante con luces, mientras que el de Vigo es 1,2 veces más brillante. Siguen siendo

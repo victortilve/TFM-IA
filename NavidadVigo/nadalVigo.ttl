@@ -1,0 +1,16 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix wd: <http://www.wikidata.org/entity/> .           # entidades (ej. wd:Q11595)
+
+<http://example.org#NadalVigo> a event:Event ;
+    dcterms:publisher "Concello de Vigo" ;
+    dcterms:subject "Iluminación navideña" ;
+    dcterms:title "Navidad en Vigo"@es ;
+    dul:hasLocation wd:Q8745 ;
+    dul:hasPart <http://example.org#NadalVigo20232024>,
+        <http://example.org#NadalVigo20242025>.
+    foaf:homepage <https://www.vigo.org> .

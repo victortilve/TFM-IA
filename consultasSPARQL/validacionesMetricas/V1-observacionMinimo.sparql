@@ -1,0 +1,12 @@
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+
+SELECT ?obs
+WHERE {
+  ?obs a sosa:Observation .
+  FILTER (
+    !EXISTS { ?obs sosa:madeBySensor ?s } ||
+    !EXISTS { ?obs sosa:resultTime ?t }   ||
+    ( !EXISTS { ?obs sosa:hasResult ?r } && !EXISTS { ?obs sosa:hasSimpleResult ?x } )
+  )
+}
+LIMIT 200

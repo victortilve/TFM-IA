@@ -1,0 +1,13 @@
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX time: <http://www.w3.org/2006/time#>
+
+SELECT ?obs ?int ?b ?e
+WHERE {
+  ?obs a sosa:Observation ;
+       sosa:phenomenonTime ?int .
+  ?int a time:ProperInterval ;
+       time:hasBeginning ?b ;
+       time:hasEnd ?e .
+  FILTER ( ?b >= ?e )
+}
+LIMIT 200

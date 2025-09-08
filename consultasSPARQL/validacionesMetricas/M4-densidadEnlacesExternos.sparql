@@ -1,0 +1,14 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+
+SELECT (AVG(?k) AS ?mediaEnlacesExternos)
+WHERE {
+  SELECT ?s (COUNT(?o) AS ?k)
+  WHERE {
+    { ?s skos:exactMatch ?o } UNION
+    { ?s rdfs:seeAlso    ?o } UNION
+    { ?s owl:sameAs      ?o }
+  }
+  GROUP BY ?s
+}

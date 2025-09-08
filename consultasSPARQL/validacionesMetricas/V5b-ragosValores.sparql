@@ -1,0 +1,13 @@
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX qudt: <http://qudt.org/schema/qudt/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?obs ?qv ?val
+WHERE {
+  ?obs a sosa:Observation ;
+       sosa:hasResult ?qv .
+  ?qv  qudt:numericValue ?val .
+  FILTER ( xsd:decimal(?val) < 16.0 || xsd:decimal(?val) > 23.0 )
+}
+ORDER BY ?val
+LIMIT 200

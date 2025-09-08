@@ -1,1 +1,12 @@
+PREFIX ex:   <http://example.org#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT ?degurba ?degLabel (COUNT(DISTINCT ?s) AS ?nSensores)
+WHERE {
+  ?s ex:perteneceADegurba|ex:gradoDEGURBA ?degurba .
+  OPTIONAL { ?degurba skos:prefLabel ?degLabel .
+             FILTER (lang(?degLabel)="es" || lang(?degLabel)="") }
+}
+GROUP BY ?degurba ?degLabel
+ORDER BY ?degurba
 

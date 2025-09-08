@@ -1,0 +1,10 @@
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX qudt: <http://qudt.org/schema/qudt/>
+
+SELECT ?obs ?qv
+WHERE {
+  ?obs a sosa:Observation ;
+       sosa:hasResult ?qv .
+  FILTER ( !EXISTS { ?qv qudt:unit ?u } )
+}
+LIMIT 200

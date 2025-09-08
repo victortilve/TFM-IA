@@ -1,0 +1,12 @@
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+
+SELECT
+  (COUNT(DISTINCT ?obs)    AS ?nObservaciones)
+  (COUNT(DISTINCT ?sensor) AS ?nSensores)
+  (MIN(?t)                 AS ?desde)
+  (MAX(?t)                 AS ?hasta)
+WHERE {
+  ?obs a sosa:Observation ;
+       sosa:madeBySensor ?sensor ;
+       sosa:resultTime ?t .
+}

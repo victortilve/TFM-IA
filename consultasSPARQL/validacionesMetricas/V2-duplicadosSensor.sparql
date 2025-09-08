@@ -1,0 +1,11 @@
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+
+SELECT ?sensor ?t (COUNT(?obs) AS ?n)
+WHERE {
+  ?obs a sosa:Observation ;
+       sosa:madeBySensor ?sensor ;
+       sosa:resultTime ?t .
+}
+GROUP BY ?sensor ?t
+HAVING (COUNT(?obs) > 1)
+ORDER BY DESC(?n) ?sensor ?t

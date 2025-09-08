@@ -1,0 +1,19 @@
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX qudt: <http://qudt.org/schema/qudt/>
+PREFIX geo:  <http://www.opengis.net/ont/geosparql#>
+
+SELECT
+  (COUNT(?o)                                           AS ?totalObs)
+  (SUM(IF(BOUND(?res) || BOUND(?simple), 1, 0))        AS ?conResultado)
+  (SUM(IF(BOUND(?qv)  && BOUND(?unit),   1, 0))        AS ?conUnidad)
+  (COUNT(DISTINCT ?sensor)                             AS ?sensores)
+  (SUM(IF(BOUND(?geomWKT), 1, 0))                      AS ?sensoresConGeom)
+WHERE {
+  ?o a sosa:Observation ;
+     sosa:madeBySensor ?sensor .
+  OPTIONAL { ?o sosa:hasResult ?qv .
+             OPTIONAL { ?qv qudt:unit ?unit . }
+             BIND(?qv AS ?res) }
+  OPTIONAL { ?o sosa:hasSimpleResult ?simple . }
+  OPTIONAL { ?sensor geo:hasGeometry/geo:asWKT ?geomWKT . }
+}

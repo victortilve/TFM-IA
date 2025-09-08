@@ -1,0 +1,8 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?s
+WHERE {
+  ?s ?p ?o .
+  FILTER ( !EXISTS { ?s rdfs:label ?lbl } )
+}
+LIMIT 200

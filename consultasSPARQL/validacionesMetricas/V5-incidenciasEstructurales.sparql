@@ -1,0 +1,52 @@
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX geo:  <http://www.opengis.net/ont/geosparql#>
+PREFIX qudt: <http://qudt.org/schema/qudt/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?tipo (COUNT(*) AS ?n)
+WHERE {
+  {
+    SELECT "V1_faltan_campos" AS ?tipo ?obs WHERE {
+      ?obs a sosa:Observation .
+      FILTER (
+        !EXISTS { ?obs sosa:madeBySensor ?s } ||
+        !EXISTS { ?obs sosa:resultTime ?t }   ||
+        ( !EXISTS { ?obs sosa:hasResult ?r } && !EXISTS { ?obs sosa:hasSimpleResult ?x } )
+      )
+    }
+  } UNION {
+    SELECT "V2_duplicados_sensor_tiempo" AS ?tipo ?obs WHERE {
+      ?obs a sosa:Observation ;
+           sosa:madeBySensor ?sensor ;
+           sosa:resultTime ?t .
+      {
+        SELECT ?sensor ?t (COUNT(?obs) AS ?n)
+        WHERE { ?obs a sosa:Observation ; sosa:madeBySensor ?sensor ; sosa:resultTime ?t . }
+        GROUP BY ?sensor ?t
+        HAVING (COUNT(?obs) > 1)
+      }
+    }
+  } UNION {
+    SELECT "V3_intervalos_mal_formados" AS ?tipo ?int WHERE {
+      ?int a time:ProperInterval ;
+           time:hasBeginning ?b ;
+           time:hasEnd ?e .
+      FILTER ( ?b >= ?e )
+    }
+  } UNION {
+    SELECT "V4_sin_CRS_explicito" AS ?tipo ?geom WHERE {
+      ?geom geo:asWKT ?wkt .
+      FILTER ( !STRSTARTS(STR(?wkt), "<http://www.opengis.net/def/crs/OGC/1.3/CRS84> ") )
+    }
+  } UNION {
+    SELECT "V5_fuera_de_rango" AS ?tipo ?obs WHERE {
+      ?obs a sosa:Observation ;
+           sosa:hasResult ?qv .
+      ?qv qudt:numericValue ?val .
+      FILTER ( xsd:decimal(?val) < 16.0 || xsd:decimal(?val) > 23.0 )
+    }
+  }
+}
+GROUP BY ?tipo
+ORDER BY ?tipo

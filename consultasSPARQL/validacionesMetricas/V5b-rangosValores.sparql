@@ -6,7 +6,6 @@ SELECT ?obs ?qv ?val
 WHERE {
   ?obs a sosa:Observation ;
        sosa:hasSimpleResult ?val .
-  FILTER ( xsd:decimal(?val) < 16.0 || xsd:decimal(?val) > 23.0 )
-}
+FILTER ( xsd:decimal(?val) != 0 && (xsd:decimal(?val) < 14.0 || xsd:decimal(?val) > 23.0 ))}
 ORDER BY ?val
 LIMIT 200

@@ -1,0 +1,46 @@
+PREFIX STATO:   <http://purl.obolibrary.org/obo/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sosa:    <http://www.w3.org/ns/sosa/>
+PREFIX prov:    <http://www.w3.org/ns/prov#>
+PREFIX time:    <http://www.w3.org/2006/time#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?box ?sensor ?stat ?statType ?statLabel ?value ?interval ?start ?end
+WHERE {
+  # Boxplot y sus partes (estadísticos)
+  ?box a STATO:STATO_0000243 ;
+       dcterms:subject  ?sensor ;
+       dcterms:hasPart  ?stat .
+
+  ?stat a ?statType ;
+        rdf:value ?value ;
+        prov:wasDerivedFrom ?ds .
+
+  # Periodo SIEMPRE desde sosa:phenomenonTime
+  ?ds sosa:phenomenonTime ?interval .
+
+  # Inicio/fin del intervalo (dos variantes habituales)
+  OPTIONAL { ?interval time:hasBeginning / time:inXSDDateTime      ?startDT1 . }
+  OPTIONAL { ?interval time:hasBeginning / time:inXSDDateTimeStamp ?startDT2 . }
+  OPTIONAL { ?interval time:hasEnd       / time:inXSDDateTime      ?endDT1 . }
+  OPTIONAL { ?interval time:hasEnd       / time:inXSDDateTimeStamp ?endDT2 . }
+  BIND( COALESCE(?startDT1, ?startDT2) AS ?start )
+  BIND( COALESCE(?endDT1,   ?endDT2)   AS ?end )
+
+  # Etiquetas legibles para tipos STATO (opcional)
+  OPTIONAL {
+    VALUES (?statType ?statLabel) {
+      (STATO:STATO_0000164 "IQR")
+      (STATO:STATO_0000167 "Q1")
+      (STATO:STATO_0000574 "Mediana")
+      (STATO:STATO_0000170 "Q3")
+      (STATO:STATO_0000150 "Min")
+      (STATO:STATO_0000151 "Max")
+      (STATO:STATO_0000573 "Media")
+      (STATO:STATO_0000237 "DesvTip")
+      (STATO:STATO_0000033 "Moda")
+    }
+  }
+}
+ORDER BY ?sensor ?box ?statLabel
